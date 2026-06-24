@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout | Sanskriti Market</title>
+  <meta name="robots" content="noindex">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="/css/main.css" rel="stylesheet">
+  <style>
+    body { background: #F5F0E8; padding-top: 80px; }
+    .checkout-card { background: #fff; border-radius: 16px; padding: 32px; box-shadow: 0 2px 20px rgba(139,41,66,0.07); margin-bottom: 24px; }
+    .section-head { font-family: 'Playfair Display', serif; color: #8B2942; font-size: 1.2rem; font-weight: 600; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid #F5F0E8; }
+    .order-item { display: flex; gap: 16px; align-items: center; padding: 12px 0; border-bottom: 1px solid #F5F0E8; }
+    .order-item:last-child { border-bottom: none; }
+    .order-item img { width: 64px; height: 64px; border-radius: 10px; object-fit: cover; background: #F5F0E8; }
+    .total-row { display: flex; justify-content: space-between; padding: 8px 0; color: #555; font-size: 0.95rem; }
+    .total-row.grand { font-weight: 700; font-size: 1.1rem; color: #8B2942; border-top: 2px solid #8B2942; margin-top: 8px; padding-top: 12px; }
+    .pay-btn { background: #8B2942; color: #fff; border: none; border-radius: 12px; padding: 16px; width: 100%; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all .2s; }
+    .pay-btn:hover { background: #6d1f33; transform: translateY(-1px); }
+    .pay-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+    .method-card { border: 2px solid #E8DDD0; border-radius: 12px; padding: 16px 20px; cursor: pointer; transition: all .2s; display: flex; align-items: center; gap: 14px; margin-bottom: 10px; }
+    .method-card.active { border-color: #8B2942; background: #FFF5F7; }
+    .method-card input[type=radio] { accent-color: #8B2942; width: 18px; height: 18px; }
+    .form-control:focus, .form-select:focus { border-color: #8B2942; box-shadow: 0 0 0 0.2rem rgba(139,41,66,0.15); }
+    .step-badge { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: #8B2942; color: #fff; font-size: 13px; font-weight: 700; margin-right: 10px; }
+    #loading-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 9999; align-items: center; justify-content: center; flex-direction: column; gap: 16px; }
+    #loading-overlay.show { display: flex; }
+    .spinner-ring { width: 56px; height: 56px; border: 5px solid rgba(201,169,98,0.3); border-top-color: #C9A962; border-radius: 50%; animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-sanskriti fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="/">Sanskriti <span>Market</span></a>
+      <a href="/cart.html" class="btn btn-outline-secondary btn-sm ms-auto"><i class="bi bi-arrow-left"></i> Back to Cart</a>
+    </div>
+  </nav>
+
+  <div id="loading-overlay">
+    <div class="spinner-ring"></div>
+    <p style="color:#C9A962;font-size:1rem;font-weight:500">Processing your payment...</p>
+  </div>
+
+  <div class="container py-4">
+    <h1 class="mb-4" style="font-family:'Playfair Display',serif;color:#8B2942">Secure Checkout</h1>
+    <div id="empty-cart" style="display:none" class="text-center py-5">
+      <i class="bi bi-bag" style="font-size:3rem;color:#C9A962"></i>
+      <p class="mt-3">Your cart is empty. <a href="/products.html">Shop now</a></p>
+    </div>
+    <div id="checkout-content">
+      <div class="row g-4">
+        <div class="col-lg-7">
+          <!-- Shipping Address -->
+          <div class="checkout-card">
+            <div class="section-head"><span class="step-badge">1</span>Shipping Address</div>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Full Name *</label>
+                <input type="text" class="form-control" id="ship-name" placeholder="Your full name" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Phone *</label>
+                <input type="tel" class="form-control" id="ship-phone" placeholder="+91 98765 43210" required>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Street Address *</label>
+                <input type="text" class="form-control" id="ship-street" placeholder="House No, Street, Area" required>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">City *</label>
+                <input type="text" class="form-control" id="ship-city" required>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">State *</label>
+                <select class="form-select" id="ship-state">
+                  <option value="">Select State</option>
+                  <option>Andhra Pradesh</option><option>Bihar</option><option>Delhi</option>
+                  <option>Gujarat</option><option>Karnataka</option><option>Kerala</option>
+                  <option>Madhya Pradesh</option><option>Maharashtra</option><option>Odisha</option>
+                  <option>Punjab</option><option>Rajasthan</option><option>Tamil Nadu</option>
+                  <option>Telangana</option><option>Uttar Pradesh</option><option>West Bengal</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">PIN Code *</label>
+                <input type="text" class="form-control" id="ship-pincode" maxlength="6" placeholder="110001" required>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Order Notes (optional)</label>
+                <textarea class="form-control" id="order-notes" rows="2" placeholder="Special instructions for your order..."></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment Method -->
+          <div class="checkout-card">
+            <div class="section-head"><span class="step-badge">2</span>Payment Method</div>
+            <div class="method-card active" onclick="selectMethod('razorpay', this)">
+              <input type="radio" name="payment" value="razorpay" checked>
+              <div>
+                <div style="font-weight:600;color:#1a1a1a">Pay Online (Razorpay)</div>
+                <div style="font-size:13px;color:#777">UPI, Cards, Net Banking, Wallets — Secure & Instant</div>
+              </div>
+              <img src="https://cdn.razorpay.com/static/assets/logo/payment.svg" alt="Razorpay" style="height:24px;margin-left:auto" onerror="this.style.display='none'">
+            </div>
+            <div class="method-card" onclick="selectMethod('cod', this)">
+              <input type="radio" name="payment" value="cod">
+              <div>
+                <div style="font-weight:600;color:#1a1a1a">Cash on Delivery</div>
+                <div style="font-size:13px;color:#777">Pay when your order arrives</div>
+              </div>
+              <i class="bi bi-cash-coin" style="font-size:1.5rem;color:#C9A962;margin-left:auto"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="col-lg-5">
+          <div class="checkout-card" style="position:sticky;top:90px">
+            <div class="section-head"><span class="step-badge">3</span>Order Summary</div>
+            <div id="order-items"></div>
+            <div class="mt-3">
+              <div class="total-row"><span>Subtotal</span><span id="sum-subtotal">₹0</span></div>
+              <div class="total-row"><span>Shipping</span><span id="sum-shipping">₹99</span></div>
+              <div class="total-row"><span>GST (5%)</span><span id="sum-tax">₹0</span></div>
+              <div class="total-row grand"><span>Total</span><span id="sum-total">₹0</span></div>
+            </div>
+            <div class="mt-4">
+              <button class="pay-btn" id="place-order-btn" onclick="placeOrder()">
+                <i class="bi bi-shield-lock-fill me-2"></i>Place Order Securely
+              </button>
+            </div>
+            <div class="text-center mt-3" style="color:#999;font-size:12px">
+              <i class="bi bi-lock-fill me-1"></i>Secured by Razorpay & 256-bit SSL encryption
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script>
+    let cartData = null;
+    let selectedMethod = 'razorpay';
+
+    function selectMethod(method, el) {
+      selectedMethod = method;
+      document.querySelectorAll('.method-card').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      el.querySelector('input[type=radio]').checked = true;
+      document.getElementById('place-order-btn').innerHTML =
+        method === 'razorpay'
+          ? '<i class="bi bi-shield-lock-fill me-2"></i>Pay with Razorpay'
+          : '<i class="bi bi-cash-coin me-2"></i>Place COD Order';
+    }
+
+    function fmt(n) { return '₹' + Number(n).toLocaleString('en-IN'); }
+
+    async function loadCart() {
+      try {
+        const res = await API.get('/api/cart');
+        cartData = res.data.cart;
+        if (!cartData || cartData.items.length === 0) {
+          document.getElementById('empty-cart').style.display = 'block';
+          document.getElementById('checkout-content').style.display = 'none';
+          return;
+        }
+        renderSummary();
+      } catch (e) { showToast('Could not load cart. Please try again.', 'danger'); }
+    }
+
+    function renderSummary() {
+      const items = cartData.items;
+      let subtotal = 0;
+      const html = items.map(item => {
+        const total = item.product.price * item.quantity;
+        subtotal += total;
+        return `<div class="order-item">
+          <img src="${item.product.images?.[0]?.url || ''}" alt="${item.product.name}" onerror="this.src='https://via.placeholder.com/64x64?text=🪔'">
+          <div style="flex:1">
+            <div style="font-weight:600;font-size:0.9rem">${item.product.name}</div>
+            <div style="color:#8B7355;font-size:0.8rem">Qty: ${item.quantity}</div>
+          </div>
+          <div style="font-weight:600;color:#8B2942">${fmt(total)}</div>
+        </div>`;
+      }).join('');
+      document.getElementById('order-items').innerHTML = html;
+      const shipping = subtotal >= 2000 ? 0 : 99;
+      const tax = Math.round(subtotal * 0.05);
+      const total = subtotal + shipping + tax;
+      document.getElementById('sum-subtotal').textContent = fmt(subtotal);
+      document.getElementById('sum-shipping').textContent = shipping === 0 ? 'FREE' : fmt(shipping);
+      document.getElementById('sum-tax').textContent = fmt(tax);
+      document.getElementById('sum-total').textContent = fmt(total);
+    }
+
+    function validateForm() {
+      const fields = ['ship-name','ship-phone','ship-street','ship-city','ship-state','ship-pincode'];
+      for (const id of fields) {
+        const el = document.getElementById(id);
+        if (!el.value.trim()) { el.focus(); showToast('Please fill all required fields.', 'warning'); return false; }
+      }
+      if (!/^\d{6}$/.test(document.getElementById('ship-pincode').value)) {
+        showToast('Please enter a valid 6-digit PIN code.', 'warning'); return false;
+      }
+      return true;
+    }
+
+    async function placeOrder() {
+      if (!Auth.isLoggedIn()) { window.location.href = '/login.html?redirect=/checkout.html'; return; }
+      if (!validateForm()) return;
+      const btn = document.getElementById('place-order-btn');
+      btn.disabled = true; btn.textContent = 'Creating order...';
+
+      const shippingAddress = {
+        name: document.getElementById('ship-name').value.trim(),
+        phone: document.getElementById('ship-phone').value.trim(),
+        street: document.getElementById('ship-street').value.trim(),
+        city: document.getElementById('ship-city').value.trim(),
+        state: document.getElementById('ship-state').value,
+        pincode: document.getElementById('ship-pincode').value.trim(),
+        country: 'India',
+      };
+
+      try {
+        // Create order in DB
+        const orderRes = await API.post('/api/orders', {
+          shippingAddress,
+          paymentMethod: selectedMethod,
+          notes: document.getElementById('order-notes').value,
+        });
+        const order = orderRes.data.order;
+
+        if (selectedMethod === 'cod') {
+          showToast('Order placed successfully! 🎉', 'success');
+          setTimeout(() => window.location.href = `/order-success.html?id=${order._id}`, 1500);
+          return;
+        }
+
+        // Razorpay flow
+        const rpRes = await API.post('/api/payment/create-order', { orderId: order._id });
+        const rp = rpRes.data;
+
+        const options = {
+          key: rp.keyId,
+          amount: rp.amount,
+          currency: rp.currency,
+          name: 'Sanskriti Market',
+          description: `Order #${rp.orderNumber}`,
+          order_id: rp.razorpayOrderId,
+          prefill: { name: rp.userName, email: rp.userEmail, contact: shippingAddress.phone },
+          theme: { color: '#8B2942' },
+          modal: { ondismiss: () => { btn.disabled = false; btn.innerHTML = '<i class="bi bi-shield-lock-fill me-2"></i>Pay with Razorpay'; }},
+          handler: async (response) => {
+            document.getElementById('loading-overlay').classList.add('show');
+            try {
+              await API.post('/api/payment/verify', {
+                orderId: order._id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+              });
+              window.location.href = `/order-success.html?id=${order._id}&paid=true`;
+            } catch (e) {
+              document.getElementById('loading-overlay').classList.remove('show');
+              showToast('Payment verification failed. Contact support.', 'danger');
+              btn.disabled = false;
+            }
+          },
+        };
+
+        const rzp = new Razorpay(options);
+        rzp.on('payment.failed', (r) => {
+          showToast('Payment failed: ' + r.error.description, 'danger');
+          btn.disabled = false;
+          btn.innerHTML = '<i class="bi bi-shield-lock-fill me-2"></i>Pay with Razorpay';
+        });
+        rzp.open();
+      } catch (e) {
+        showToast(e.message || 'Something went wrong.', 'danger');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-shield-lock-fill me-2"></i>Place Order Securely';
+      }
+    }
+
+    function showToast(msg, type = 'info') {
+      const t = document.createElement('div');
+      t.className = `alert alert-${type} position-fixed bottom-0 end-0 m-3`;
+      t.style.cssText = 'z-index:9999;min-width:280px;border-radius:12px';
+      t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(() => t.remove(), 4000);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!Auth.isLoggedIn()) { window.location.href = '/login.html?redirect=/checkout.html'; return; }
+      loadCart();
+    });
+  </script>
+</body>
+</html>

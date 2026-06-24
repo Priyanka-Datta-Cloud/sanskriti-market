@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Product | Sanskriti Market</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="/css/main.css" rel="stylesheet"><link href="/css/components.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-sanskriti fixed-top"><div class="container"><a class="navbar-brand" href="/">Sanskriti <span>Market</span></a>
+<div class="d-flex ms-auto gap-2"><a href="/cart.html" class="nav-icon-btn"><i class="bi bi-bag"></i></a><a href="/products.html" class="nav-link">Back to Shop</a></div></div></nav>
+<main class="container" style="padding-top:100px;padding-bottom:3rem" id="product-page"><div class="text-center py-5"><div class="loading-spinner"></div></div></main>
+<footer class="footer"><div class="container text-center"><p>&copy; 2026 Sanskriti Market</p></div></footer>
+<div id="chatbot-widget" class="chatbot-widget"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/api.js"></script><script src="/js/auth.js"></script><script src="/js/main.js"></script>
+<script src="/js/cart.js"></script><script src="/js/wishlist.js"></script><script src="/js/chatbot.js"></script>
+<script>
+let qty=1;
+async function loadProduct(){const slug=new URLSearchParams(location.search).get('slug');if(!slug){location.href='/products.html';return;}
+try{const r=await api.products.getBySlug(slug);const p=r.data.product;const similar=r.data.similar||[];
+document.title=p.name+' | Sanskriti Market';
+document.getElementById('product-page').innerHTML=`<nav><ol class="breadcrumb breadcrumb-sanskriti"><li class="breadcrumb-item"><a href="/products.html">Shop</a></li><li class="breadcrumb-item active">${p.name}</li></ol></nav>
+<div class="row g-5"><div class="col-lg-6"><div class="product-gallery"><img src="${p.images?.[0]?.url||''}" alt="${p.name}"></div></div>
+<div class="col-lg-6 product-info"><p class="text-muted"><a href="/store.html?slug=${p.store?.slug||''}">${p.store?.name||'Artisan Store'}</a></p>
+<h1>${p.name}</h1><div class="product-rating mb-3">${Utils.renderStars(p.rating)} (${p.reviewCount} reviews)</div>
+<div class="product-price-lg mb-3">${Utils.formatPrice(p.price)}</div><p>${p.shortDescription||''}</p>
+<div class="product-meta mb-4">${p.region?'<div class="meta-item"><i class="bi bi-geo-alt"></i> '+p.region+'</div>':''}${p.craftTechnique?'<div class="meta-item"><i class="bi bi-tools"></i> '+p.craftTechnique+'</div>':''}</div>
+<div class="d-flex align-items-center gap-3 mb-4"><div class="quantity-selector"><button onclick="qty=Math.max(1,qty-1);document.getElementById('qty').value=qty">-</button><input id="qty" value="1" readonly><button onclick="qty=Math.min(${p.stock},qty+1);document.getElementById('qty').value=qty">+</button></div><span class="text-muted">${p.stock} in stock</span></div>
+<div class="d-flex gap-3"><button class="btn-sanskriti" onclick="Cart.add('${p._id}',qty)"><i class="bi bi-bag-plus"></i> Add to Cart</button>
+<button class="btn-outline-sanskriti" onclick="Wishlist.toggle('${p._id}')"><i class="bi bi-heart"></i> Wishlist</button></div>
+<div class="mt-4"><h5>Description</h5><p>${p.description}</p></div></div></div>
+<div id="story-section" class="story-section mt-5" style="display:none"></div>
+<h3 class="mt-5 mb-4">You May Also Like</h3><div class="product-grid" id="similar-products"></div>`;
+Utils.renderProductGrid(similar,'similar-products');
+try{const s=await api.products.getStory(p._id);if(s.data?.story){const st=s.data.story;document.getElementById('story-section').style.display='block';
+document.getElementById('story-section').innerHTML=`<h3>${st.title}</h3><div class="artisan-card"><div class="artisan-avatar">${st.artisan?.name?.[0]||'A'}</div><div><h5>${st.artisan?.name}</h5><p class="text-muted">${st.artisan?.location||''}</p></div></div><p>${st.narrative}</p>`;}}catch{}}catch{document.getElementById('product-page').innerHTML='<div class="empty-state"><h4>Product not found</h4><a href="/products.html" class="btn-sanskriti">Browse Products</a></div>';}}
+document.addEventListener('DOMContentLoaded',loadProduct);
+</script></body></html>

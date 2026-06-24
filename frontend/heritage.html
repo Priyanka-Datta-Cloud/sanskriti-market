@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heritage Knowledge Hub | Sanskriti Market</title>
+  <meta name="description" content="Learn about India's greatest craft traditions — Madhubani Art, Pashmina, Warli Painting, Bandhani, Blue Pottery, Banarasi Silk and more.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="/css/main.css" rel="stylesheet">
+  <style>
+    body { background:#F5F0E8; padding-top:80px; }
+    .heritage-hero { background:linear-gradient(135deg,#2C1810 0%,#8B2942 100%); color:#fff; padding:70px 0 50px; text-align:center; }
+    .heritage-hero h1 { font-family:'Playfair Display',serif; font-size:3rem; }
+    .heritage-nav { background:#fff; border-bottom:2px solid #F5F0E8; padding:12px 0; position:sticky; top:70px; z-index:100; }
+    .heritage-nav .nav-pill { font-size:13px; padding:6px 16px; border-radius:20px; color:#555; cursor:pointer; border:none; background:none; transition:all .2s; }
+    .heritage-nav .nav-pill.active, .heritage-nav .nav-pill:hover { background:#8B2942; color:#fff; }
+    .heritage-section { padding:70px 0; border-bottom:1px solid #E8DDD0; scroll-margin-top:130px; }
+    .heritage-section:last-child { border-bottom:none; }
+    .craft-icon-box { width:80px; height:80px; border-radius:20px; display:flex; align-items:center; justify-content:center; font-size:2.5rem; margin-bottom:20px; }
+    .section-label { display:inline-block; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.08em; padding:4px 14px; border-radius:20px; margin-bottom:16px; }
+    .fact-card { background:#fff; border-radius:16px; padding:20px; box-shadow:0 2px 16px rgba(0,0,0,0.06); height:100%; }
+    .fact-icon { font-size:1.8rem; margin-bottom:10px; }
+    .fact-title { font-weight:600; color:#8B2942; margin-bottom:6px; }
+    .technique-step { display:flex; gap:16px; margin-bottom:20px; align-items:flex-start; }
+    .step-circle { width:36px; height:36px; border-radius:50%; background:#8B2942; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; flex-shrink:0; font-size:14px; }
+    .gi-info-box { background:linear-gradient(135deg,#FFF8E7,#FFF3CD); border:1px solid #C9A962; border-radius:16px; padding:24px; }
+    .buy-link { display:inline-flex; align-items:center; gap:8px; padding:12px 24px; background:#8B2942; color:#fff; border-radius:10px; text-decoration:none; font-weight:600; transition:all .2s; margin-top:20px; }
+    .buy-link:hover { background:#6d1f33; color:#fff; transform:translateY(-2px); }
+    .quote-block { border-left:4px solid #C9A962; padding:16px 24px; background:#FFF5F7; border-radius:0 12px 12px 0; font-style:italic; color:#555; margin:24px 0; }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-sanskriti fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="/">Sanskriti <span>Market</span></a>
+      <div class="ms-auto d-flex gap-2">
+        <a href="/india-craft-map.html" class="btn btn-outline-light btn-sm"><i class="bi bi-map me-1"></i>Craft Map</a>
+        <a href="/products.html" class="btn btn-sanskriti btn-sm">Shop Now</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="heritage-hero">
+    <div class="container">
+      <div style="font-size:3rem;margin-bottom:16px">🏛️</div>
+      <h1>Heritage Knowledge Hub</h1>
+      <p style="color:#C9A962;font-size:1.1rem;margin-top:8px">5000 years of India's craft wisdom, one story at a time</p>
+    </div>
+  </div>
+
+  <div class="heritage-nav">
+    <div class="container d-flex gap-2 flex-wrap">
+      <button class="nav-pill active" onclick="scrollTo('madhubani')">Madhubani</button>
+      <button class="nav-pill" onclick="scrollTo('pashmina')">Pashmina</button>
+      <button class="nav-pill" onclick="scrollTo('warli')">Warli</button>
+      <button class="nav-pill" onclick="scrollTo('bandhani')">Bandhani</button>
+      <button class="nav-pill" onclick="scrollTo('blue-pottery')">Blue Pottery</button>
+      <button class="nav-pill" onclick="scrollTo('channapatna')">Channapatna Toys</button>
+      <button class="nav-pill" onclick="scrollTo('banarasi')">Banarasi Silk</button>
+      <button class="nav-pill" onclick="scrollTo('dokra')">Dokra</button>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- MADHUBANI -->
+    <section class="heritage-section" id="madhubani">
+      <div class="row g-5 align-items-center">
+        <div class="col-lg-6">
+          <span class="section-label" style="background:#FFF3CD;color:#B8860B">Bihar · 2500 Years Old</span>
+          <div class="craft-icon-box" style="background:linear-gradient(135deg,#FFF3CD,#F0E068)">🖼️</div>
+          <h2 style="font-family:'Playfair Display',serif;color:#8B2942;font-size:2.2rem">Madhubani Art</h2>
+          <p style="color:#555;line-height:1.9;font-size:1.05rem">Madhubani painting is a 2,500-year-old folk art from the Mithila region of Bihar. Legend says it was first created for the wedding of Lord Ram and Sita — the women of Mithila decorated every wall and floor of the kingdom. Today, it's one of India's most recognised folk art forms, practised primarily by women who pass the tradition from mother to daughter.</p>
+          <div class="quote-block">"When a daughter is born in Mithila, the women paint the walls. When she marries, they paint again. Madhubani is the language of our hearts."</div>
+          <a href="/products.html?craftType=madhubani" class="buy-link"><i class="bi bi-bag-heart"></i>Shop Madhubani Art</a>
+        </div>
+        <div class="col-lg-6">
+          <div class="row g-3">
+            <div class="col-6"><div class="fact-card"><div class="fact-icon">🎨</div><div class="fact-title">Natural Colours</div><p style="font-size:0.9rem;color:#555">Made from turmeric, indigo, rice powder, cow dung, and flowers. No synthetic dyes in authentic work.</p></div></div>
+            <div class="col-6"><div class="fact-card"><div class="fact-icon">📐</div><div class="fact-title">Geometric Patterns</div><p style="font-size:0.9rem;color:#555">Bold outlines, no empty space, vivid geometric fill patterns — every inch has meaning.</p></div></div>
+            <div class="col-6"><div class="fact-card"><div class="fact-icon">🌸</div><div class="fact-title">Five Styles</div><p style="font-size:0.9rem;color:#555">Katchni, Bharni, Godna, Kohbar, and Tantrik — each from a different village tradition.</p></div></div>
+            <div class="col-6"><div class="fact-card"><div class="fact-icon">🏅</div><div class="fact-title">GI Certified</div><p style="font-size:0.9rem;color:#555">Officially recognised as a Geographical Indication product by the Government of India.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PASHMINA -->
+    <section class="heritage-section" id="pashmina">
+      <div class="row g-5 align-items-center">
+        <div class="col-lg-6 order-lg-2">
+          <span class="section-label" style="background:#E8F4FD;color:#1E6A9A">Kashmir · 3000 Years Old</span>
+          <div class="craft-icon-box" style="background:linear-gradient(135deg,#E8F4FD,#AED6F1)">🧣</div>
+          <h2 style="font-family:'Playfair Display',serif;color:#8B2942;font-size:2.2rem">Pashmina</h2>
+          <p style="color:#555;line-height:1.9;font-size:1.05rem">Pashmina comes from the underbelly hair of the Changthangi goat found only in the high-altitude Changthang plateau of Ladakh at 14,000 feet. The fibres are hand-spun by Kashmiri artisans into the world's finest wool — softer than cashmere, lighter than air. A single shawl takes 3–6 months to make by hand.</p>
+          <div class="gi-info-box mt-4">
+            <h6 style="color:#B8860B"><i class="bi bi-patch-check-fill me-2"></i>How to identify genuine Pashmina</h6>
+            <ul style="color:#555;margin:12px 0;padding-left:20px;line-height:2">
+              <li>Burns like hair (not plastic smell)</li>
+              <li>Ring test — passes through a ring</li>
+              <li>GI certification tag from Kashmir</li>
+              <li>Hand-spun, not machine-woven</li>
+            </ul>
+          </div>
+          <a href="/products.html?craftType=pashmina" class="buy-link"><i class="bi bi-bag-heart"></i>Shop Pashmina</a>
+        </div>
+        <div class="col-lg-6 order-lg-1">
+          <h5 style="color:#8B2942;font-weight:600;margin-bottom:20px">How Pashmina is Made</h5>
+          <div class="technique-step"><div class="step-circle">1</div><div><strong>Combing</strong> — Fibres are hand-combed from the Changthangi goat during spring moulting season</div></div>
+          <div class="technique-step"><div class="step-circle">2</div><div><strong>Spinning</strong> — Village women hand-spin the raw fibre into thread using a traditional <em>yinder</em> (spinning wheel)</div></div>
+          <div class="technique-step"><div class="step-circle">3</div><div><strong>Dyeing</strong> — Threads are dyed with plant-based or mineral colours in Kashmir's mountain streams</div></div>
+          <div class="technique-step"><div class="step-circle">4</div><div><strong>Weaving</strong> — Master weavers hand-loom the shawl on traditional <em>khaddi</em> looms, one inch per hour</div></div>
+          <div class="technique-step"><div class="step-circle">5</div><div><strong>Finishing</strong> — Kani or Sozni embroidery is added by hand. A Kani shawl can take 2–3 years</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BANDHANI -->
+    <section class="heritage-section" id="bandhani">
+      <div class="row g-5 align-items-center">
+        <div class="col-lg-6">
+          <span class="section-label" style="background:#FFF5F7;color:#8B2942">Rajasthan & Gujarat · 5000 Years Old</span>
+          <div class="craft-icon-box" style="background:linear-gradient(135deg,#FFE4E1,#FFB6C1)">🎨</div>
+          <h2 style="font-family:'Playfair Display',serif;color:#8B2942;font-size:2.2rem">Bandhani</h2>
+          <p style="color:#555;line-height:1.9;font-size:1.05rem">Bandhani (from Sanskrit <em>bandhan</em>, meaning "to tie") is one of the oldest tie-dye traditions in the world. Evidence has been found in the Indus Valley Civilisation. Artisans use their fingernails to pluck thousands of tiny dots of fabric and tie them with thread before dyeing — creating the iconic polka-dot and geometric patterns. A single saree can have over 100,000 tie points.</p>
+          <a href="/products.html?craftType=bandhani" class="buy-link"><i class="bi bi-bag-heart"></i>Shop Bandhani</a>
+        </div>
+        <div class="col-lg-6">
+          <div class="row g-3">
+            <div class="col-6"><div class="fact-card"><div class="fact-icon">🤌</div><div class="fact-title">100,000 Knots</div><p style="font-size:0.9rem;color:#555">A single Bandhani saree can have over 100,000 hand-tied dots — each tied by a single fingernail.</p></div></div>
+            <div class="col-6"><div class="fact-card"><div class="fact-icon">🌈</div><div class="fact-title">Natural Dyes</div><p style="font-size:0.9rem;color:#555">Pomegranate rind, indigo, turmeric, and henna are traditional dye sources. Colours don't fade.</p></div></div>
+            <div class="col-6"><div class="fact-card"><div class="fact-icon">👰</div><div class="fact-title">Bridal Tradition</div><p style="font-size:0.9rem;color:#555">Red and yellow Bandhani sarees are mandatory in Rajasthani and Gujarati weddings.</p></div></div>
+            <div class="col-6"><div class="fact-card"><div class="fact-icon">🏅</div><div class="fact-title">GI Protected</div><p style="font-size:0.9rem;color:#555">Kutch Bandhani has Geographical Indication status protecting the craft and its artisans.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLUE POTTERY -->
+    <section class="heritage-section" id="blue-pottery">
+      <div class="row g-5 align-items-center">
+        <div class="col-lg-6 order-lg-2">
+          <span class="section-label" style="background:#EBF5FB;color:#1A5276">Jaipur, Rajasthan</span>
+          <div class="craft-icon-box" style="background:linear-gradient(135deg,#EBF5FB,#85C1E9)">🏺</div>
+          <h2 style="font-family:'Playfair Display',serif;color:#8B2942;font-size:2.2rem">Blue Pottery</h2>
+          <p style="color:#555;line-height:1.9;font-size:1.05rem">Jaipur Blue Pottery is unique — it contains no clay. The base is made from quartz stone powder, glass, and multani mitti (Fuller's Earth) fired at low temperature. The Persian-inspired cobalt blue designs on a milky white background make each piece unmistakable. It's fragile, artistic, and impossible to mass-produce — every piece is individually hand-painted.</p>
+          <a href="/products.html?craftType=blue-pottery" class="buy-link"><i class="bi bi-bag-heart"></i>Shop Blue Pottery</a>
+        </div>
+        <div class="col-lg-6 order-lg-1">
+          <h5 style="color:#8B2942;font-weight:600;margin-bottom:20px">What Makes It Special</h5>
+          <div class="technique-step"><div class="step-circle">✦</div><div><strong>No clay used</strong> — Made from quartz, making it technically not "pottery" at all</div></div>
+          <div class="technique-step"><div class="step-circle">✦</div><div><strong>Persian influence</strong> — Brought to Rajasthan by Mughal artisans in the 14th century</div></div>
+          <div class="technique-step"><div class="step-circle">✦</div><div><strong>Two firings</strong> — Fired at low 800°C twice for the signature glassy finish</div></div>
+          <div class="technique-step"><div class="step-circle">✦</div><div><strong>GI certified</strong> — Only Jaipur-made pieces can legally be called Blue Pottery</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WARLI -->
+    <section class="heritage-section" id="warli">
+      <div class="row g-5 align-items-center">
+        <div class="col-lg-6">
+          <span class="section-label" style="background:#F0FFF0;color:#27AE60">Maharashtra · Tribal Art</span>
+          <div class="craft-icon-box" style="background:linear-gradient(135deg,#D5F5E3,#A9DFBF)">🌿</div>
+          <h2 style="font-family:'Playfair Display',serif;color:#8B2942;font-size:2.2rem">Warli Painting</h2>
+          <p style="color:#555;line-height:1.9;font-size:1.05rem">Warli is a tribal art from the Warli tribe of Maharashtra, India's oldest living folk art. Created exclusively in white (rice paste) on a mud-brown background, it tells stories of daily life — harvest festivals, weddings, fishing, and dancing. The geometric vocabulary uses only circles, triangles, and squares to create complex narrative scenes.</p>
+          <a href="/products.html?craftType=warli" class="buy-link"><i class="bi bi-bag-heart"></i>Shop Warli Art</a>
+        </div>
+        <div class="col-lg-6">
+          <div class="row g-3">
+            <div class="col-6"><div class="fact-card"><div class="fact-icon">⚪</div><div class="fact-title">Only White on Brown</div><p style="font-size:0.9rem;color:#555">Authentic Warli uses only white rice paste on a terracotta or mud background — no other colours.</p></div></div>
+            <div class="col-6"><div class="fact-card"><div class="fact-icon">📐</div><div class="fact-title">Three Shapes Only</div><p style="font-size:0.9rem;color:#555">Circle (sun/moon), triangle (human body), square (sacred enclosure). Complex scenes from 3 shapes.</p></div></div>
+            <div class="col-6"><div class="fact-card"><div class="fact-icon">💃</div><div class="fact-title">Tarpa Dance</div><p style="font-size:0.9rem;color:#555">The most iconic Warli motif — people dancing in a circle around a musician. Symbol of community.</p></div></div>
+            <div class="col-6"><div class="fact-card"><div class="fact-icon">👩</div><div class="fact-title">Women's Art</div><p style="font-size:0.9rem;color:#555">Traditionally painted exclusively by women for weddings and festivals. Men began painting in the 1970s.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHANNAPATNA -->
+    <section class="heritage-section" id="channapatna">
+      <div class="row g-5">
+        <div class="col-lg-6">
+          <span class="section-label" style="background:#FFF9F0;color:#E67E22">Karnataka · 200 Years Old</span>
+          <div class="craft-icon-box" style="background:linear-gradient(135deg,#FDEBD0,#FAD7A0)">🪀</div>
+          <h2 style="font-family:'Playfair Display',serif;color:#8B2942;font-size:2.2rem">Channapatna Toys</h2>
+          <p style="color:#555;line-height:1.9;font-size:1.05rem">Channapatna is called <em>Gombegala Ooru</em> — "town of toys" in Kannada. Established 200 years ago under Tipu Sultan who invited Persian craftsmen, these wooden toys are made from ivory wood (Wrightia tinctoria) and finished with natural lacquer made from vegetable dyes. They are completely non-toxic, eco-friendly, and safe for children. GI protected.</p>
+          <a href="/products.html?craftType=channapatna" class="buy-link"><i class="bi bi-bag-heart"></i>Shop Channapatna Toys</a>
+        </div>
+        <div class="col-lg-6">
+          <h5 style="color:#8B2942;font-weight:600;margin-bottom:20px">Making Process</h5>
+          <div class="technique-step"><div class="step-circle">1</div><div><strong>Wood selection</strong> — Ivory wood (aale mara) is chosen for its soft, non-toxic properties</div></div>
+          <div class="technique-step"><div class="step-circle">2</div><div><strong>Lathe turning</strong> — Wood is turned on a traditional lathe to create the round toy shapes</div></div>
+          <div class="technique-step"><div class="step-circle">3</div><div><strong>Lac application</strong> — Natural lac is pressed against the rotating wood, melting to form a colourful coating</div></div>
+          <div class="technique-step"><div class="step-circle">4</div><div><strong>Polishing</strong> — Final buff with a soft cloth gives the characteristic smooth, glowing finish</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BANARASI -->
+    <section class="heritage-section" id="banarasi">
+      <div class="row g-5 align-items-center">
+        <div class="col-lg-6 order-lg-2">
+          <span class="section-label" style="background:#FFF5F7;color:#8B2942">Varanasi, UP · Mughal Era</span>
+          <div class="craft-icon-box" style="background:linear-gradient(135deg,#FFF0F5,#FFB6C1)">🪡</div>
+          <h2 style="font-family:'Playfair Display',serif;color:#8B2942;font-size:2.2rem">Banarasi Silk</h2>
+          <p style="color:#555;line-height:1.9;font-size:1.05rem">Banarasi silk sarees are woven in Varanasi (Banaras), one of the world's oldest continuously inhabited cities. The weaving tradition dates to the Mughal era. They are famous for their gold and silver brocade or zari work, fine silk, and opulent embroidery. Every Indian bride dreams of a Banarasi saree — it's the ultimate symbol of elegance and heritage.</p>
+          <a href="/products.html?craftType=banarasi" class="buy-link"><i class="bi bi-bag-heart"></i>Shop Banarasi Silk</a>
+        </div>
+        <div class="col-lg-6 order-lg-1">
+          <div class="row g-3">
+            <div class="col-6"><div class="fact-card"><div class="fact-icon">⏱️</div><div class="fact-title">15 Days Minimum</div><p style="font-size:0.9rem;color:#555">A basic Banarasi saree takes 15 days. An elaborate one can take 6 months for a single piece.</p></div></div>
+            <div class="col-6"><div class="fact-card"><div class="fact-icon">🥇</div><div class="fact-title">Real Gold Thread</div><p style="font-size:0.9rem;color:#555">Authentic pieces use real gold and silver threads — called zari — woven into the silk base.</p></div></div>
+            <div class="col-6"><div class="fact-card"><div class="fact-icon">🕌</div><div class="fact-title">Mughal Motifs</div><p style="font-size:0.9rem;color:#555">Floral jungles, kalga (paisley), and jali (lattice) patterns originated in Mughal court fashion.</p></div></div>
+            <div class="col-6"><div class="fact-card"><div class="fact-icon">🏅</div><div class="fact-title">GI Protected</div><p style="font-size:0.9rem;color:#555">Only sarees woven in Varanasi and surrounding villages can be sold as genuine Banarasi Silk.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DOKRA -->
+    <section class="heritage-section" id="dokra">
+      <div class="row g-5">
+        <div class="col-lg-6">
+          <span class="section-label" style="background:#F4ECF7;color:#6C3483">West Bengal & Odisha · 4000 Years Old</span>
+          <div class="craft-icon-box" style="background:linear-gradient(135deg,#F4ECF7,#D7BDE2)">🔔</div>
+          <h2 style="font-family:'Playfair Display',serif;color:#8B2942;font-size:2.2rem">Dokra Metal Casting</h2>
+          <p style="color:#555;line-height:1.9;font-size:1.05rem">Dokra is one of the world's oldest metal-casting techniques, using the lost-wax (cire-perdue) method used for over 4,000 years. The Dancing Girl of Mohenjodaro (2500 BCE) is believed to be the earliest known Dokra work. Tribal artisans from the Dhokra Damar communities of Bengal and Odisha create one-of-a-kind brass figurines, animals, and jewellery — no two pieces are identical.</p>
+          <a href="/products.html?craftType=dokra" class="buy-link"><i class="bi bi-bag-heart"></i>Shop Dokra Art</a>
+        </div>
+        <div class="col-lg-6">
+          <h5 style="color:#8B2942;font-weight:600;margin-bottom:20px">Lost-Wax Process (Cire Perdue)</h5>
+          <div class="technique-step"><div class="step-circle">1</div><div><strong>Clay core</strong> — A basic shape is formed in clay and dried in the sun</div></div>
+          <div class="technique-step"><div class="step-circle">2</div><div><strong>Wax coating</strong> — The clay core is coated in beeswax and resin, then carved with all the fine details</div></div>
+          <div class="technique-step"><div class="step-circle">3</div><div><strong>Outer clay</strong> — The wax model is coated in a thick clay shell and dried</div></div>
+          <div class="technique-step"><div class="step-circle">4</div><div><strong>Metal pour</strong> — Molten brass is poured in, melting and replacing the wax (hence "lost-wax")</div></div>
+          <div class="technique-step"><div class="step-circle">5</div><div><strong>Reveal</strong> — The clay is broken away, revealing a unique brass sculpture that can never be exactly replicated</div></div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="container pb-5 text-center">
+    <div style="background:#8B2942;color:#fff;border-radius:20px;padding:48px 40px">
+      <h2 style="font-family:'Playfair Display',serif;font-size:2rem;margin-bottom:12px">Own a Piece of History</h2>
+      <p style="color:#C9A962;margin-bottom:28px">Every product on Sanskriti Market carries the story of India's greatest craft traditions</p>
+      <a href="/products.html" class="btn btn-lg" style="background:#C9A962;color:#8B2942;font-weight:700;border-radius:10px;padding:14px 40px">Explore All Products</a>
+    </div>
+  </div>
+
+  <script>
+    function scrollTo(id) {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.querySelectorAll('.nav-pill').forEach(p => p.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+    // Highlight nav pill on scroll
+    const sections = document.querySelectorAll('.heritage-section');
+    const pills = document.querySelectorAll('.nav-pill');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          pills.forEach(p => p.classList.remove('active'));
+          const matching = [...pills].find(p => p.getAttribute('onclick')?.includes(e.target.id));
+          if (matching) matching.classList.add('active');
+        }
+      });
+    }, { threshold: 0.3 });
+    sections.forEach(s => obs.observe(s));
+  </script>
+</body>
+</html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop By Region – India Craft Map | Sanskriti Market</title>
+  <meta name="description" content="Explore authentic handcrafted products from every corner of India. Shop by region — Rajasthan, Kashmir, Bengal, Tamil Nadu, and more.">
+  <meta property="og:title" content="India Craft Map | Sanskriti Market">
+  <meta property="og:description" content="Discover GI-tagged crafts, heritage artisans and authentic handmade products from across India.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="/css/main.css" rel="stylesheet">
+  <style>
+    body { background: #F5F0E8; padding-top: 80px; }
+    .map-hero { background: linear-gradient(135deg,#8B2942 0%,#5C1A28 100%); color: #fff; padding: 60px 0 40px; text-align: center; }
+    .map-hero h1 { font-family: 'Playfair Display',serif; font-size: 2.8rem; margin-bottom: 12px; }
+    .map-hero p { color: #C9A962; font-size: 1.1rem; }
+    .region-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(280px,1fr)); gap: 24px; padding: 40px 0; }
+    .region-card { background: #fff; border-radius: 20px; overflow: hidden; cursor: pointer; transition: all .3s; box-shadow: 0 2px 16px rgba(139,41,66,0.07); border: 2px solid transparent; }
+    .region-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(139,41,66,0.18); border-color: #C9A962; }
+    .region-card.active { border-color: #8B2942; }
+    .region-banner { height: 160px; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; position: relative; }
+    .region-body { padding: 20px; }
+    .region-name { font-family: 'Playfair Display',serif; font-size: 1.3rem; font-weight: 600; color: #8B2942; }
+    .craft-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+    .craft-tag { font-size: 11px; padding: 3px 10px; border-radius: 20px; background: #F5F0E8; color: #8B2942; font-weight: 500; }
+    .gi-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; padding: 3px 10px; border-radius: 20px; background: #FFF8E7; color: #B8860B; border: 1px solid #C9A962; font-weight: 500; }
+    .detail-panel { background: #fff; border-radius: 20px; padding: 40px; margin-bottom: 40px; display: none; box-shadow: 0 4px 32px rgba(139,41,66,0.1); }
+    .detail-panel.show { display: block; animation: slideIn .3s ease; }
+    @keyframes slideIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    .stat-box { background: #F5F0E8; border-radius: 12px; padding: 16px; text-align: center; }
+    .stat-num { font-size: 1.8rem; font-weight: 700; color: #8B2942; }
+    .stat-label { font-size: 12px; color: #8B7355; margin-top: 4px; }
+    .product-mini { border-radius: 12px; overflow: hidden; background: #F5F0E8; position: relative; }
+    .product-mini img { width: 100%; height: 160px; object-fit: cover; }
+    .product-mini-body { padding: 12px; }
+    .heritage-pill { display: inline-block; background: linear-gradient(135deg,#8B2942,#C9A962); color: #fff; font-size: 11px; padding: 2px 10px; border-radius: 20px; font-weight: 600; margin-bottom: 6px; }
+    .india-map-svg { max-width: 500px; margin: 0 auto; display: block; }
+    .india-map-svg .region-path { fill: #E8DDD0; stroke: #fff; stroke-width: 1.5; cursor: pointer; transition: fill .2s; }
+    .india-map-svg .region-path:hover { fill: #C9A962; }
+    .india-map-svg .region-path.active { fill: #8B2942; }
+    .map-legend { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 16px; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .knowledge-link { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-radius: 12px; background: #F5F0E8; margin-bottom: 10px; text-decoration: none; color: inherit; transition: all .2s; }
+    .knowledge-link:hover { background: #FFF5F7; transform: translateX(4px); }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-sanskriti fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="/">Sanskriti <span>Market</span></a>
+      <div class="d-flex gap-2 ms-auto">
+        <a href="/products.html" class="btn btn-outline-light btn-sm">All Products</a>
+        <a href="/heritage.html" class="btn btn-sanskriti btn-sm">Heritage Hub</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="map-hero">
+    <div class="container">
+      <h1>🗺️ India Craft Map</h1>
+      <p>Every region. Every tradition. Every artisan.</p>
+      <p style="color:rgba(255,255,255,0.7);font-size:0.95rem;margin-top:8px">Click a region to explore its unique crafts, artisans, and stories</p>
+    </div>
+  </div>
+
+  <div class="container py-5">
+    <!-- Region detail panel (appears on click) -->
+    <div class="detail-panel" id="detail-panel"></div>
+
+    <!-- Region Grid -->
+    <h2 style="font-family:'Playfair Display',serif;color:#8B2942;margin-bottom:8px">Explore by Region</h2>
+    <p style="color:#8B7355;margin-bottom:32px">India's 8 major craft regions, each with a distinct artistic identity</p>
+    <div class="region-grid" id="region-grid"></div>
+
+    <!-- Heritage Knowledge Links -->
+    <div class="mt-5">
+      <h2 style="font-family:'Playfair Display',serif;color:#8B2942;margin-bottom:8px">Heritage Knowledge Hub</h2>
+      <p style="color:#8B7355;margin-bottom:24px">Dive deep into India's most celebrated craft traditions</p>
+      <div class="row g-3" id="knowledge-links"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/api.js"></script>
+  <script>
+    const REGIONS = [
+      {
+        id: 'rajasthan', name: 'Rajasthan', emoji: '🏰', color: '#F4A460',
+        bg: 'linear-gradient(135deg,#F4A460,#CD853F)',
+        tagline: 'The Land of Kings & Colours',
+        description: 'Rajasthan\'s crafts are as vibrant as its culture — from intricate block prints to jewel-studded jewelry, each piece tells a royal story.',
+        crafts: ['Blue Pottery', 'Bandhani', 'Miniature Paintings', 'Lac Jewelry', 'Phad Painting', 'Zari Work'],
+        giCrafts: ['Jaipur Blue Pottery', 'Kota Doria'],
+        artisanCount: 250000,
+        productCount: 1240,
+        highlights: ['World-famous Jaipur gemstones', 'UNESCO-recognized block printing', 'Royal Meenakari enamel work'],
+        slug: 'rajasthan',
+      },
+      {
+        id: 'kashmir', name: 'Kashmir', emoji: '❄️', color: '#6495ED',
+        bg: 'linear-gradient(135deg,#6495ED,#483D8B)',
+        tagline: 'Heaven on Earth, Crafted with Love',
+        description: 'Kashmir\'s artisans have perfected their crafts over centuries — from the world\'s finest Pashmina wool to intricate walnut woodcarving.',
+        crafts: ['Pashmina Shawls', 'Kashmiri Carpet', 'Papier-Mâché', 'Walnut Woodwork', 'Sozni Embroidery', 'Chain Stitch'],
+        giCrafts: ['Kashmir Pashmina', 'Kani Shawl', 'Kashmir Sozni Craft'],
+        artisanCount: 180000,
+        productCount: 890,
+        highlights: ['Genuine GI-certified Pashmina', 'Hand-knotted Persian carpets', 'Ancient papier-mâché art'],
+        slug: 'kashmir',
+      },
+      {
+        id: 'west-bengal', name: 'West Bengal', emoji: '🎨', color: '#DC143C',
+        bg: 'linear-gradient(135deg,#DC143C,#8B0000)',
+        tagline: 'Where Art Meets Tradition',
+        description: 'Bengal\'s craft tradition is deeply tied to its spiritual and folk identity — from Madhubani-style Patachitra to intricate Kantha embroidery.',
+        crafts: ['Kantha Embroidery', 'Patachitra', 'Terracotta', 'Baluchari Silk', 'Dokra Metal Craft', 'Conch Shell Art'],
+        giCrafts: ['Bishnupur Baluchari Saree', 'Darjeeling Tea', 'Shantipur Saree'],
+        artisanCount: 200000,
+        productCount: 760,
+        highlights: ['Living tradition of scroll painting', 'Tribal Dokra lost-wax casting', 'UNESCO Kantha embroidery'],
+        slug: 'west-bengal',
+      },
+      {
+        id: 'gujarat', name: 'Gujarat', emoji: '🪡', color: '#FF8C00',
+        bg: 'linear-gradient(135deg,#FF8C00,#B8860B)',
+        tagline: 'Colours of the Rann',
+        description: 'Gujarat is the textile capital of India — from the mirror-work of Kutch to the tie-dye Bandhani and the geometric Patola silk.',
+        crafts: ['Kutchi Embroidery', 'Patola Silk', 'Bandhani', 'Rogan Art', 'Block Printing', 'Beadwork'],
+        giCrafts: ['Patan Patola', 'Kutch Embroidery', 'Surat Zari Craft'],
+        artisanCount: 300000,
+        productCount: 1100,
+        highlights: ['World-famous double-ikat Patola', 'Rogan — art with castor oil paint', 'Endangered mirror-mosaic Lippan art'],
+        slug: 'gujarat',
+      },
+      {
+        id: 'tamil-nadu', name: 'Tamil Nadu', emoji: '🏺',  color: '#8B4513',
+        bg: 'linear-gradient(135deg,#8B4513,#D2691E)',
+        tagline: 'Classical Crafts of the South',
+        description: 'Tamil Nadu\'s crafts carry millennia of Dravidian tradition — from the celebrated Kanchipuram silk to bronze Chola sculptures.',
+        crafts: ['Kanchipuram Silk', 'Tanjore Painting', 'Bronze Casting', 'Kolam Art', 'Stone Carving', 'Kalamkari'],
+        giCrafts: ['Kanchipuram Silk Saree', 'Thanjavur Paintings', 'Salem Silk'],
+        artisanCount: 220000,
+        productCount: 930,
+        highlights: ['2000-year-old Chola bronze tradition', 'GI-certified Kanchipuram silk', '24K gold-leaf Tanjore paintings'],
+        slug: 'tamil-nadu',
+      },
+      {
+        id: 'odisha', name: 'Odisha', emoji: '🌸', color: '#9370DB',
+        bg: 'linear-gradient(135deg,#9370DB,#6A0DAD)',
+        tagline: 'Soul of Eastern India',
+        description: 'Odisha\'s Pattachitra tradition is one of India\'s oldest living art forms. The state also produces exquisite Sambalpuri silk and silver filigree work.',
+        crafts: ['Pattachitra', 'Sambalpuri Silk', 'Silver Filigree', 'Dhokra Casting', 'Stone Carving', 'Palm Leaf Engraving'],
+        giCrafts: ['Odisha Pattachitra', 'Sambalpuri Saree', 'Pipli Appliqué'],
+        artisanCount: 140000,
+        productCount: 540,
+        highlights: ['Living tradition since 12th century', 'Intricate silver Tarakashi filigree', 'Ikat weaving — UNESCO recognized'],
+        slug: 'odisha',
+      },
+      {
+        id: 'uttar-pradesh', name: 'Uttar Pradesh', emoji: '🕌', color: '#228B22',
+        bg: 'linear-gradient(135deg,#228B22,#006400)',
+        tagline: 'Chikankari, Brass & Beyond',
+        description: 'UP is home to Varanasi\'s legendary Banarasi silk, Lucknow\'s delicate Chikankari embroidery, and Moradabad\'s world-renowned brassware.',
+        crafts: ['Banarasi Silk', 'Chikankari', 'Brassware', 'Leather Craft', 'Zardozi Embroidery', 'Blue Pottery'],
+        giCrafts: ['Banarasi Saree', 'Lucknow Chikankari', 'Agra Leather', 'Moradabad Brassware'],
+        artisanCount: 350000,
+        productCount: 1500,
+        highlights: ['Royal Mughal Banarasi brocade', 'Delicate white-on-white Chikankari', 'Ancient Varanasi silk-weaving tradition'],
+        slug: 'uttar-pradesh',
+      },
+      {
+        id: 'bihar', name: 'Bihar', emoji: '🎋', color: '#556B2F',
+        bg: 'linear-gradient(135deg,#556B2F,#8B7355)',
+        tagline: 'Madhubani Magic',
+        description: 'Bihar is the birthplace of Madhubani painting — a 2500-year-old folk art tradition that tells stories of gods, nature, and life cycles through vivid geometric patterns.',
+        crafts: ['Madhubani Painting', 'Tikuli Art', 'Sujini Embroidery', 'Sikki Grass Craft', 'Stone Inlay', 'Bamboo Craft'],
+        giCrafts: ['Madhubani Painting', 'Bihar Madhubani Art'],
+        artisanCount: 95000,
+        productCount: 380,
+        highlights: ['2500-year-old Madhubani tradition', 'UNESCO cultural heritage art', 'Natural colour paintings on handmade paper'],
+        slug: 'bihar',
+      },
+    ];
+
+    const HERITAGE = [
+      { name: 'Madhubani Art', icon: '🖼️', desc: '2500 years of Bihar\'s living art', slug: 'madhubani' },
+      { name: 'Pashmina Craft', icon: '🧣', desc: 'Kashmir\'s legendary woollen luxury', slug: 'pashmina' },
+      { name: 'Warli Painting', icon: '🌿', desc: 'Maharashtra\'s tribal geometric art', slug: 'warli' },
+      { name: 'Bandhani Dyeing', icon: '🎨', desc: 'Rajasthan & Gujarat\'s tie-dye tradition', slug: 'bandhani' },
+      { name: 'Blue Pottery', icon: '🏺', desc: 'Jaipur\'s Persian-influenced craft', slug: 'blue-pottery' },
+      { name: 'Channapatna Toys', icon: '🪀', desc: 'Karnataka\'s eco-friendly wooden toys', slug: 'channapatna' },
+      { name: 'Banarasi Silk', icon: '🪡', desc: 'Varanasi\'s royal brocade weaving', slug: 'banarasi' },
+      { name: 'Dokra Metal Cast', icon: '🔔', desc: 'Lost-wax casting, 4000 years old', slug: 'dokra' },
+    ];
+
+    let activeRegion = null;
+
+    function renderRegions() {
+      document.getElementById('region-grid').innerHTML = REGIONS.map(r => `
+        <div class="region-card" id="card-${r.id}" onclick="selectRegion('${r.id}')">
+          <div class="region-banner" style="background:${r.bg}">${r.emoji}</div>
+          <div class="region-body">
+            <div class="region-name">${r.name}</div>
+            <div style="color:#8B7355;font-size:0.85rem;margin-bottom:10px;font-style:italic">${r.tagline}</div>
+            <div class="craft-tags">
+              ${r.crafts.slice(0,3).map(c => `<span class="craft-tag">${c}</span>`).join('')}
+              ${r.crafts.length > 3 ? `<span class="craft-tag">+${r.crafts.length-3} more</span>` : ''}
+            </div>
+            ${r.giCrafts.length ? `<div class="mt-2"><span class="gi-badge"><i class="bi bi-patch-check-fill"></i> ${r.giCrafts.length} GI Tagged</span></div>` : ''}
+          </div>
+        </div>`).join('');
+    }
+
+    function renderKnowledge() {
+      document.getElementById('knowledge-links').innerHTML = HERITAGE.map(h => `
+        <div class="col-md-6 col-lg-3">
+          <a href="/heritage.html#${h.slug}" class="knowledge-link">
+            <span style="font-size:2rem">${h.icon}</span>
+            <div>
+              <div style="font-weight:600;color:#1a1a1a;font-size:0.95rem">${h.name}</div>
+              <div style="font-size:0.8rem;color:#8B7355">${h.desc}</div>
+            </div>
+            <i class="bi bi-arrow-right ms-auto" style="color:#C9A962"></i>
+          </a>
+        </div>`).join('');
+    }
+
+    function selectRegion(id) {
+      const r = REGIONS.find(x => x.id === id);
+      if (!r) return;
+      document.querySelectorAll('.region-card').forEach(c => c.classList.remove('active'));
+      document.getElementById('card-' + id).classList.add('active');
+      activeRegion = id;
+      showDetail(r);
+      document.getElementById('detail-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function showDetail(r) {
+      const panel = document.getElementById('detail-panel');
+      panel.innerHTML = `
+        <div class="d-flex justify-content-between align-items-start mb-4 flex-wrap gap-3">
+          <div>
+            <div style="font-size:3rem;margin-bottom:8px">${r.emoji}</div>
+            <h2 style="font-family:'Playfair Display',serif;color:#8B2942;margin:0">${r.name}</h2>
+            <p style="color:#C9A962;font-style:italic;margin-top:4px">${r.tagline}</p>
+          </div>
+          <a href="/products.html?region=${r.id}" class="btn btn-sanskriti">
+            <i class="bi bi-bag-heart-fill me-2"></i>Shop ${r.name} Crafts
+          </a>
+        </div>
+        <p style="color:#555;line-height:1.8;font-size:1rem;margin-bottom:24px">${r.description}</p>
+        <div class="row g-3 mb-4">
+          <div class="col-4"><div class="stat-box"><div class="stat-num">${(r.artisanCount/1000).toFixed(0)}K+</div><div class="stat-label">Artisans</div></div></div>
+          <div class="col-4"><div class="stat-box"><div class="stat-num">${r.productCount}+</div><div class="stat-label">Products</div></div></div>
+          <div class="col-4"><div class="stat-box"><div class="stat-num">${r.giCrafts.length}</div><div class="stat-label">GI Tags</div></div></div>
+        </div>
+        <div class="row g-4">
+          <div class="col-md-6">
+            <h5 style="color:#8B2942;font-weight:600">Traditional Crafts</h5>
+            <div class="craft-tags">
+              ${r.crafts.map(c => `<span class="craft-tag" style="font-size:13px;padding:5px 14px">${c}</span>`).join('')}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <h5 style="color:#8B2942;font-weight:600">✨ Regional Highlights</h5>
+            <ul style="color:#555;line-height:2;padding-left:20px;margin:0">
+              ${r.highlights.map(h => `<li>${h}</li>`).join('')}
+            </ul>
+          </div>
+        </div>
+        ${r.giCrafts.length ? `
+        <div class="mt-4 p-3" style="background:#FFF8E7;border-radius:12px;border:1px solid #C9A962">
+          <h6 style="color:#B8860B;margin-bottom:8px"><i class="bi bi-patch-check-fill me-2"></i>GI Tagged Crafts from ${r.name}</h6>
+          <div class="d-flex flex-wrap gap-2">
+            ${r.giCrafts.map(g => `<span class="gi-badge">${g}</span>`).join('')}
+          </div>
+        </div>` : ''}
+        <div class="mt-4" id="region-products-${r.id}">
+          <h5 style="color:#8B2942;font-weight:600">Featured Products</h5>
+          <div class="text-center py-3" style="color:#aaa"><div class="spinner-border spinner-border-sm me-2"></div>Loading products...</div>
+        </div>`;
+      panel.classList.add('show');
+      loadRegionProducts(r);
+    }
+
+    async function loadRegionProducts(r) {
+      try {
+        const res = await API.get(`/api/products?region=${r.id}&limit=4&isActive=true`);
+        const products = res.data.products || [];
+        const container = document.getElementById(`region-products-${r.id}`);
+        if (!products.length) {
+          container.innerHTML = `<h5 style="color:#8B2942;font-weight:600">Featured Products</h5><div class="text-center py-4" style="color:#aaa"><i class="bi bi-bag" style="font-size:2rem"></i><p class="mt-2">Products coming soon from ${r.name}</p><a href="/products.html" class="btn btn-sanskriti btn-sm mt-2">Browse All Products</a></div>`;
+          return;
+        }
+        container.innerHTML = `<h5 style="color:#8B2942;font-weight:600;margin-bottom:16px">Featured Products</h5>
+          <div class="row g-3">
+            ${products.map(p => `
+              <div class="col-6 col-md-3">
+                <a href="/product-detail.html?id=${p._id}" class="text-decoration-none">
+                  <div class="product-mini">
+                    ${p.isHeritageCraft ? '<span class="heritage-pill position-absolute m-2">Heritage</span>' : ''}
+                    <img src="${p.images?.[0]?.url || ''}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/200x160?text=🪔'">
+                    <div class="product-mini-body">
+                      <div style="font-size:0.85rem;font-weight:600;color:#1a1a1a;line-height:1.3">${p.name}</div>
+                      <div style="color:#8B2942;font-weight:700;margin-top:4px">₹${Number(p.price).toLocaleString('en-IN')}</div>
+                    </div>
+                  </div>
+                </a>
+              </div>`).join('')}
+          </div>
+          <div class="text-center mt-4">
+            <a href="/products.html?region=${r.id}" class="btn btn-outline-sanskriti">View All ${r.name} Products →</a>
+          </div>`;
+      } catch {}
+    }
+
+    renderRegions();
+    renderKnowledge();
+  </script>
+</body>
+</html>
