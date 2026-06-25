@@ -22,7 +22,7 @@ const Auth = {
   requireLogin(redirectBack = true) {
     if (!Auth.isLoggedIn()) {
       const back = redirectBack
-        ? `?redirect=${encodeURIComponent(location.pathname)}`
+        ? '?redirect=' + encodeURIComponent(location.pathname)
         : '';
       window.location.href = '/login.html' + back;
       return false;
