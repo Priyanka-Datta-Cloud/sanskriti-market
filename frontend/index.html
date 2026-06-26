@@ -3,223 +3,615 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Sanskriti Market - Discover authentic handcrafted treasures from India. Premium textiles, pottery, jewelry, and artisan crafts. Handcrafted in India. Treasured Worldwide.">
-  <meta name="keywords" content="handcrafted, India, artisan, marketplace, textiles, pottery, jewelry, handmade, crafts">
-  <meta name="author" content="Sanskriti Market">
-  <meta property="og:title" content="Sanskriti Market - Handcrafted in India">
-  <meta property="og:description" content="Discover authentic handcrafted treasures from master artisans across India.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://sanskritimarket.com">
-  <meta name="twitter:card" content="summary_large_image">
-  <title>Sanskriti Market | Handcrafted in India. Treasured Worldwide.</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <title>Sanskriti Market — Handcrafted in India. Treasured Worldwide.</title>
+  <meta name="description" content="Discover authentic handcrafted Indian products from master artisans. Shop Madhubani paintings, Pashmina shawls, Banarasi silk, Blue pottery and more.">
+  <meta property="og:title" content="Sanskriti Market — Handcrafted in India">
+  <meta property="og:description" content="Authentic Indian handicrafts from master artisans. GI certified crafts from every region of India.">
+  <meta property="og:image" content="/assets/images/og-image.jpg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
   <link href="/css/main.css" rel="stylesheet">
-  <link href="/css/components.css" rel="stylesheet">
-  <link href="/css/animations.css" rel="stylesheet">
-  <link rel="canonical" href="https://sanskritimarket.com/">
+  <style>
+    :root {
+      --crimson: #8B2942;
+      --gold: #C9A962;
+      --cream: #F5F0E8;
+      --dark: #1a0a0f;
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, rgba(26,10,15,0.85) 0%, rgba(139,41,66,0.75) 100%),
+        url('https://images.unsplash.com/photo-1602910344008-22f323cc1817?w=1600&q=80') center/cover no-repeat;
+      display: flex; align-items: center; color: #fff;
+      padding: 120px 0 80px;
+    }
+    .hero-badge { background: rgba(201,169,98,0.2); border: 1px solid var(--gold); color: var(--gold); padding: 6px 18px; border-radius: 20px; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; display: inline-block; margin-bottom: 20px; }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.15; margin-bottom: 20px; }
+    .hero h1 span { color: var(--gold); }
+    .hero p { font-size: 1.15rem; color: rgba(255,255,255,0.85); max-width: 560px; line-height: 1.8; margin-bottom: 36px; }
+    .btn-hero { background: var(--gold); color: var(--dark); font-weight: 600; padding: 16px 36px; border-radius: 50px; border: none; font-size: 1rem; transition: all .3s; text-decoration: none; display: inline-block; }
+    .btn-hero:hover { background: #b8960f; color: var(--dark); transform: translateY(-2px); }
+    .btn-hero-outline { background: transparent; color: #fff; border: 2px solid rgba(255,255,255,0.5); font-weight: 500; padding: 14px 32px; border-radius: 50px; font-size: 1rem; transition: all .3s; text-decoration: none; display: inline-block; margin-left: 16px; }
+    .btn-hero-outline:hover { border-color: #fff; color: #fff; background: rgba(255,255,255,0.1); }
+    .hero-stats { display: flex; gap: 40px; margin-top: 48px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.15); }
+    .hero-stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--gold); }
+    .hero-stat-label { font-size: 0.8rem; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; }
+
+    /* TRUST BAR */
+    .trust-bar { background: var(--dark); color: #fff; padding: 16px 0; }
+    .trust-item { display: flex; align-items: center; gap: 10px; font-size: 13px; color: rgba(255,255,255,0.7); }
+    .trust-item i { color: var(--gold); font-size: 18px; }
+
+    /* SECTION STYLES */
+    .section-tag { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 3px; color: var(--gold); margin-bottom: 12px; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 2.8rem); color: var(--dark); margin-bottom: 16px; }
+    .section-desc { color: #666; font-size: 1rem; line-height: 1.8; max-width: 560px; }
+
+    /* CRAFT CATEGORIES */
+    .craft-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; }
+    .craft-card { border-radius: 16px; overflow: hidden; cursor: pointer; transition: all .3s; text-decoration: none; display: block; }
+    .craft-card:hover { transform: translateY(-6px); }
+    .craft-img { height: 160px; object-fit: cover; width: 100%; }
+    .craft-body { background: #fff; padding: 14px; border: 1px solid #f0e8e0; border-top: none; border-radius: 0 0 16px 16px; }
+    .craft-name { font-weight: 600; font-size: 0.9rem; color: var(--dark); margin-bottom: 2px; }
+    .craft-count { font-size: 0.75rem; color: #999; }
+
+    /* FEATURED PRODUCTS */
+    .product-card { background: #fff; border-radius: 16px; overflow: hidden; transition: all .3s; border: 1px solid #f0e8e0; }
+    .product-card:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(139,41,66,0.15); }
+    .product-img-wrap { position: relative; height: 240px; overflow: hidden; }
+    .product-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+    .product-card:hover .product-img-wrap img { transform: scale(1.05); }
+    .product-badge { position: absolute; top: 12px; left: 12px; background: var(--crimson); color: #fff; font-size: 11px; padding: 4px 10px; border-radius: 20px; font-weight: 600; }
+    .product-badge-gold { background: var(--gold); color: var(--dark); }
+    .product-wishlist { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; transition: all .2s; }
+    .product-wishlist:hover { background: var(--crimson); color: #fff; }
+    .product-body { padding: 16px; }
+    .product-region { font-size: 11px; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+    .product-name { font-weight: 600; color: var(--dark); margin-bottom: 8px; font-size: 0.95rem; line-height: 1.4; }
+    .product-price { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--crimson); font-weight: 700; }
+    .product-price-old { font-size: 0.85rem; color: #aaa; text-decoration: line-through; margin-left: 8px; }
+    .stars { color: var(--gold); font-size: 13px; }
+
+    /* INDIA MAP SECTION */
+    .map-section { background: linear-gradient(135deg, var(--dark) 0%, #2d0f1c 100%); color: #fff; }
+    .region-pill { background: rgba(201,169,98,0.15); border: 1px solid rgba(201,169,98,0.3); color: var(--gold); padding: 10px 20px; border-radius: 30px; font-size: 13px; cursor: pointer; transition: all .2s; text-decoration: none; display: inline-block; margin: 4px; }
+    .region-pill:hover { background: var(--gold); color: var(--dark); }
+
+    /* ARTISAN SECTION */
+    .artisan-section { background: var(--cream); }
+    .artisan-card { background: #fff; border-radius: 20px; padding: 28px; border: 1px solid #f0e8e0; transition: all .3s; }
+    .artisan-card:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(139,41,66,0.1); }
+    .artisan-avatar { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 3px solid var(--gold); }
+    .verified-badge { background: #e8f5e9; color: #2e7d32; font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500; }
+
+    /* HERITAGE SECTION */
+    .heritage-card { border-radius: 20px; overflow: hidden; position: relative; height: 300px; cursor: pointer; text-decoration: none; display: block; }
+    .heritage-card img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+    .heritage-card:hover img { transform: scale(1.08); }
+    .heritage-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(26,10,15,0.9) 0%, transparent 60%); display: flex; flex-direction: column; justify-content: flex-end; padding: 24px; }
+    .heritage-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: #fff; margin-bottom: 6px; }
+    .heritage-desc { font-size: 0.85rem; color: rgba(255,255,255,0.7); }
+
+    /* TESTIMONIALS */
+    .testimonial-card { background: #fff; border-radius: 20px; padding: 32px; border: 1px solid #f0e8e0; }
+    .testimonial-text { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: #333; line-height: 1.8; font-style: italic; margin-bottom: 20px; }
+    .testimonial-author { font-weight: 600; color: var(--dark); }
+    .testimonial-location { font-size: 0.85rem; color: #999; }
+    .flag { font-size: 1.2rem; }
+
+    /* CTA SECTION */
+    .cta-section { background: linear-gradient(135deg, var(--crimson) 0%, #5c1a28 100%); color: #fff; }
+
+    /* NEWSLETTER */
+    .newsletter-input { border: none; border-radius: 50px 0 0 50px; padding: 14px 24px; font-size: 0.95rem; width: 300px; outline: none; }
+    .newsletter-btn { background: var(--gold); color: var(--dark); border: none; border-radius: 0 50px 50px 0; padding: 14px 28px; font-weight: 600; cursor: pointer; transition: all .2s; }
+    .newsletter-btn:hover { background: #b8960f; }
+
+    /* NAVBAR */
+    .navbar-sanskriti { background: rgba(26,10,15,0.95) !important; backdrop-filter: blur(10px); padding: 16px 0; }
+    .navbar-brand { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: #fff !important; }
+    .navbar-brand span { color: var(--gold); }
+    .nav-link { color: rgba(255,255,255,0.8) !important; font-size: 0.9rem; font-weight: 500; transition: color .2s; }
+    .nav-link:hover { color: var(--gold) !important; }
+    .btn-nav { background: var(--gold); color: var(--dark) !important; border-radius: 25px; padding: 8px 20px !important; font-weight: 600; }
+    .btn-nav:hover { background: #b8960f; }
+
+    /* PRODUCT LOADING SKELETON */
+    .skeleton { background: linear-gradient(90deg, #f0e8e0 25%, #e8ddd5 50%, #f0e8e0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 8px; }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+    /* FOOTER */
+    footer { background: var(--dark); color: rgba(255,255,255,0.7); }
+    footer h6 { color: var(--gold); font-weight: 600; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; }
+    footer a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem; display: block; margin-bottom: 8px; transition: color .2s; }
+    footer a:hover { color: var(--gold); }
+    .footer-brand { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #fff; }
+    .footer-brand span { color: var(--gold); }
+
+    @media (max-width: 768px) {
+      .hero { padding: 100px 0 60px; }
+      .hero-stats { gap: 24px; }
+      .btn-hero-outline { margin-left: 0; margin-top: 12px; }
+      .newsletter-input { width: 200px; }
+    }
+  </style>
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-sanskriti fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="/">Sanskriti <span>Market</span></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mx-auto">
-          <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="/products.html">Shop</a></li>
-          <li class="nav-item"><a class="nav-link" href="/search.html">Discover</a></li>
-          <li class="nav-item"><a class="nav-link" href="/about.html">Our Story</a></li>
-        </ul>
-        <form class="d-none d-lg-block me-3" id="search-form" role="search">
-          <div class="search-box">
-            <i class="bi bi-search"></i>
-            <input type="search" id="search-input" placeholder="Search crafts..." aria-label="Search">
-          </div>
-        </form>
-        <div class="d-flex align-items-center gap-2">
-          <a href="/wishlist.html" class="nav-icon-btn" aria-label="Wishlist">
-            <i class="bi bi-heart"></i>
-            <span class="badge-count" id="wishlist-count" style="display:none">0</span>
-          </a>
-          <a href="/cart.html" class="nav-icon-btn" aria-label="Cart">
-            <i class="bi bi-bag"></i>
-            <span class="badge-count" id="cart-count" style="display:none">0</span>
-          </a>
-          <a href="/login.html" class="btn btn-outline-sanskriti btn-sm" id="nav-login">Sign In</a>
-          <div class="dropdown" id="nav-user-menu" style="display:none">
-            <button class="btn btn-sanskriti btn-sm dropdown-toggle" data-bs-toggle="dropdown">
-              <span id="nav-user-name">User</span>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="/seller/dashboard.html" id="nav-seller" style="display:none">Seller Dashboard</a></li>
-              <li><a class="dropdown-item" href="/admin/dashboard.html" id="nav-admin" style="display:none">Admin Panel</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#" onclick="Auth.logout();return false">Logout</a></li>
-            </ul>
-          </div>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-sanskriti fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="/">Sanskriti <span>Market</span></a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+      <i class="bi bi-list" style="color:#fff;font-size:1.5rem"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navMain">
+      <ul class="navbar-nav mx-auto gap-1">
+        <li class="nav-item"><a class="nav-link" href="/products.html">Shop</a></li>
+        <li class="nav-item"><a class="nav-link" href="/india-craft-map.html">Craft Map</a></li>
+        <li class="nav-item"><a class="nav-link" href="/heritage.html">Heritage</a></li>
+        <li class="nav-item"><a class="nav-link" href="/about.html">About</a></li>
+      </ul>
+      <div class="d-flex align-items-center gap-2">
+        <a href="/products.html?q=" class="nav-link"><i class="bi bi-search"></i></a>
+        <a href="/wishlist.html" class="nav-link"><i class="bi bi-heart"></i></a>
+        <a href="/cart.html" class="nav-link" id="nav-cart"><i class="bi bi-bag"></i> <span id="cart-count" class="badge bg-danger rounded-pill" style="display:none">0</span></a>
+        <div id="nav-auth">
+          <a href="/login.html" class="nav-link me-1">Login</a>
+          <a href="/register.html" class="nav-link btn-nav">Join Free</a>
+        </div>
+        <div id="nav-user" style="display:none">
+          <span class="nav-link" id="nav-username" style="color:var(--gold)"></span>
+          <a href="#" onclick="Auth.logout()" class="nav-link btn-nav">Logout</a>
         </div>
       </div>
     </div>
-  </nav>
+  </div>
+</nav>
 
-  <section class="hero">
-    <div class="hero-pattern"></div>
-    <div class="container hero-content">
-      <div class="row align-items-center min-vh-75 py-5 mt-5">
-        <div class="col-lg-6">
-          <p class="hero-tagline fade-in">Handcrafted in India. Treasured Worldwide.</p>
-          <h1 class="hero-title fade-in fade-in-delay-1">
-            Discover <span class="highlight">Artisan</span> Treasures
-          </h1>
-          <p class="hero-subtitle fade-in fade-in-delay-2">
-            Curated marketplace connecting master craftspeople with discerning collectors. Every piece tells a story of heritage, skill, and soul.
-          </p>
-          <div class="d-flex flex-wrap gap-3 fade-in fade-in-delay-3">
-            <a href="/products.html" class="btn-sanskriti">Explore Collection <i class="bi bi-arrow-right"></i></a>
-            <a href="/about.html" class="btn-outline-sanskriti">Our Story</a>
-          </div>
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-7">
+        <div class="hero-badge"><i class="bi bi-patch-check-fill me-2"></i>GI Certified Authentic Crafts</div>
+        <h1>Where India's <span>Ancient Crafts</span> Meet the Modern World</h1>
+        <p>Discover handcrafted treasures made by master artisans from every corner of India. Each piece carries centuries of tradition, soul, and story.</p>
+        <div class="d-flex flex-wrap gap-2">
+          <a href="/products.html" class="btn-hero"><i class="bi bi-bag-heart me-2"></i>Explore Collection</a>
+          <a href="/india-craft-map.html" class="btn-hero-outline"><i class="bi bi-map me-2"></i>Craft Map</a>
         </div>
-        <div class="col-lg-6 d-none d-lg-block">
-          <div class="hero-image-wrapper float fade-in fade-in-delay-2">
-            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='500' viewBox='0 0 600 500'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%238B2942'/%3E%3Cstop offset='100%25' style='stop-color:%23C9A962'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='%23F5F0E8' width='600' height='500' rx='20'/%3E%3Ccircle cx='300' cy='200' r='120' fill='url(%23g)' opacity='0.3'/%3E%3Ctext x='300' y='280' text-anchor='middle' fill='%238B2942' font-family='Georgia,serif' font-size='28' font-weight='bold'%3EHandcrafted%3C/text%3E%3Ctext x='300' y='320' text-anchor='middle' fill='%23C9A962' font-family='Georgia,serif' font-size='20' font-style='italic'%3Ewith Heritage%3C/text%3E%3C/svg%3E" alt="Handcrafted Indian artisan products" class="img-fluid rounded-4" width="600" height="500">
-          </div>
+        <div class="hero-stats">
+          <div><div class="hero-stat-num">500+</div><div class="hero-stat-label">Artisans</div></div>
+          <div><div class="hero-stat-num">2000+</div><div class="hero-stat-label">Products</div></div>
+          <div><div class="hero-stat-num">28</div><div class="hero-stat-label">States</div></div>
+          <div><div class="hero-stat-num">50+</div><div class="hero-stat-label">GI Crafts</div></div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="section" id="categories">
-    <div class="container">
-      <h2 class="section-title reveal">Shop by Craft</h2>
-      <p class="section-subtitle reveal">Explore centuries-old traditions from every corner of India</p>
-      <div class="row g-4 stagger-children" id="categories-grid"></div>
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="container">
+    <div class="row g-3">
+      <div class="col-6 col-md-3"><div class="trust-item"><i class="bi bi-patch-check-fill"></i><span>100% Authentic & GI Certified</span></div></div>
+      <div class="col-6 col-md-3"><div class="trust-item"><i class="bi bi-truck"></i><span>Free Shipping above ₹2000</span></div></div>
+      <div class="col-6 col-md-3"><div class="trust-item"><i class="bi bi-arrow-return-left"></i><span>7-Day Easy Returns</span></div></div>
+      <div class="col-6 col-md-3"><div class="trust-item"><i class="bi bi-shield-lock-fill"></i><span>Secure Payments</span></div></div>
     </div>
-  </section>
+  </div>
+</div>
 
-  <section class="section bg-white">
-    <div class="container">
-      <div class="d-flex justify-content-between align-items-center mb-4">
+<!-- SHOP BY CRAFT -->
+<section class="py-5" style="background: var(--cream)">
+  <div class="container">
+    <div class="text-center mb-5">
+      <div class="section-tag">Explore by Craft</div>
+      <h2 class="section-title">Centuries-Old Traditions</h2>
+      <p class="section-desc mx-auto">Every craft tells a story of a region, a community, and a way of life passed down through generations.</p>
+    </div>
+    <div class="craft-grid">
+      <a href="/products.html?craftType=madhubani" class="craft-card">
+        <img src="https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=400&q=80" class="craft-img" alt="Madhubani Art">
+        <div class="craft-body"><div class="craft-name">Madhubani Art</div><div class="craft-count">Bihar • 2500 years old</div></div>
+      </a>
+      <a href="/products.html?craftType=pashmina" class="craft-card">
+        <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=400&q=80" class="craft-img" alt="Pashmina">
+        <div class="craft-body"><div class="craft-name">Pashmina</div><div class="craft-count">Kashmir • GI Protected</div></div>
+      </a>
+      <a href="/products.html?craftType=banarasi" class="craft-card">
+        <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400&q=80" class="craft-img" alt="Banarasi Silk">
+        <div class="craft-body"><div class="craft-name">Banarasi Silk</div><div class="craft-count">Varanasi • Mughal Era</div></div>
+      </a>
+      <a href="/products.html?craftType=blue-pottery" class="craft-card">
+        <img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=400&q=80" class="craft-img" alt="Blue Pottery">
+        <div class="craft-body"><div class="craft-name">Blue Pottery</div><div class="craft-count">Jaipur • Persian Heritage</div></div>
+      </a>
+      <a href="/products.html?craftType=warli" class="craft-card">
+        <img src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&q=80" class="craft-img" alt="Warli Art">
+        <div class="craft-body"><div class="craft-name">Warli Art</div><div class="craft-count">Maharashtra • Tribal</div></div>
+      </a>
+      <a href="/products.html?craftType=channapatna" class="craft-card">
+        <img src="https://images.unsplash.com/photo-1566847438217-76e02a251ce4?w=400&q=80" class="craft-img" alt="Channapatna">
+        <div class="craft-body"><div class="craft-name">Channapatna</div><div class="craft-count">Karnataka • Eco Toys</div></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED PRODUCTS -->
+<section class="py-5 bg-white">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-end mb-5">
+      <div>
+        <div class="section-tag">Handpicked for You</div>
+        <h2 class="section-title mb-0">Featured Treasures</h2>
+      </div>
+      <a href="/products.html?isFeatured=true" class="btn btn-outline-secondary rounded-pill px-4">View All →</a>
+    </div>
+    <div class="row g-4" id="featured-products">
+      <!-- Skeleton loaders -->
+      <div class="col-6 col-md-3"><div style="height:320px" class="skeleton rounded-4"></div></div>
+      <div class="col-6 col-md-3"><div style="height:320px" class="skeleton rounded-4"></div></div>
+      <div class="col-6 col-md-3"><div style="height:320px" class="skeleton rounded-4"></div></div>
+      <div class="col-6 col-md-3"><div style="height:320px" class="skeleton rounded-4"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- INDIA MAP SECTION -->
+<section class="map-section py-5">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <div class="section-tag">Shop by Region</div>
+        <h2 class="section-title text-white">Every Corner of India, <span style="color:var(--gold)">One Marketplace</span></h2>
+        <p style="color:rgba(255,255,255,0.7);line-height:1.8;margin-bottom:32px">From the snowy valleys of Kashmir to the tropical shores of Kerala — discover the unique craft heritage of each Indian state.</p>
         <div>
-          <h2 class="section-title text-start mb-1 reveal">Featured Treasures</h2>
-          <p class="text-muted reveal">Handpicked by our curators</p>
+          <a href="/india-craft-map.html?region=rajasthan" class="region-pill">🏰 Rajasthan</a>
+          <a href="/india-craft-map.html?region=kashmir" class="region-pill">❄️ Kashmir</a>
+          <a href="/india-craft-map.html?region=west-bengal" class="region-pill">🎨 West Bengal</a>
+          <a href="/india-craft-map.html?region=gujarat" class="region-pill">🪡 Gujarat</a>
+          <a href="/india-craft-map.html?region=tamil-nadu" class="region-pill">🏺 Tamil Nadu</a>
+          <a href="/india-craft-map.html?region=odisha" class="region-pill">🌸 Odisha</a>
+          <a href="/india-craft-map.html?region=uttar-pradesh" class="region-pill">🕌 Uttar Pradesh</a>
+          <a href="/india-craft-map.html?region=bihar" class="region-pill">🎋 Bihar</a>
         </div>
-        <a href="/products.html?featured=true" class="btn-outline-sanskriti btn-sm">View All</a>
+        <a href="/india-craft-map.html" class="btn-hero mt-4 d-inline-block"><i class="bi bi-map me-2"></i>Explore Craft Map</a>
       </div>
-      <div class="product-grid" id="featured-products">
-        <div class="skeleton" style="height:350px"></div>
-        <div class="skeleton" style="height:350px"></div>
-        <div class="skeleton" style="height:350px"></div>
-        <div class="skeleton" style="height:350px"></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <h2 class="section-title reveal">Trending Now</h2>
-      <p class="section-subtitle reveal">What collectors are loving this season</p>
-      <div class="product-grid" id="trending-products">
-        <div class="skeleton" style="height:350px"></div>
-        <div class="skeleton" style="height:350px"></div>
-        <div class="skeleton" style="height:350px"></div>
-        <div class="skeleton" style="height:350px"></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section bg-white" id="recommendations-section">
-    <div class="container">
-      <h2 class="section-title reveal">Curated For You</h2>
-      <p class="section-subtitle reveal">AI-powered recommendations based on your taste</p>
-      <div id="ai-insights" class="mb-4" style="display:none;max-width:600px;margin:0 auto"></div>
-      <div class="product-grid" id="recommended-products">
-        <div class="skeleton" style="height:350px"></div>
-        <div class="skeleton" style="height:350px"></div>
-        <div class="skeleton" style="height:350px"></div>
-        <div class="skeleton" style="height:350px"></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" style="background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%);color:white">
-    <div class="container text-center">
-      <h2 class="section-title text-white reveal">Become a Creator</h2>
-      <p class="section-subtitle text-white opacity-75 reveal">Share your craft with the world. Join thousands of artisans on Sanskriti Market.</p>
-      <a href="/register.html?role=seller" class="btn-gold reveal">Open Your Store</a>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <div class="container">
-      <div class="row g-4">
-        <div class="col-lg-4">
-          <div class="footer-brand">Sanskriti Market</div>
-          <p class="footer-tagline">Handcrafted in India. Treasured Worldwide.</p>
-          <div class="social-links">
-            <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-            <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-            <a href="#" aria-label="Pinterest"><i class="bi bi-pinterest"></i></a>
-            <a href="#" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+      <div class="col-lg-6">
+        <div class="row g-3">
+          <div class="col-6">
+            <div class="heritage-card" style="height:200px">
+              <img src="https://images.unsplash.com/photo-1599930113854-d6d7fd521f10?w=400&q=80" alt="Rajasthan crafts">
+              <div class="heritage-overlay"><div class="heritage-title" style="font-size:1.1rem">Rajasthan</div><div class="heritage-desc">Block prints, Blue pottery, Bandhani</div></div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="heritage-card" style="height:200px">
+              <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&q=80" alt="Kashmir crafts">
+              <div class="heritage-overlay"><div class="heritage-title" style="font-size:1.1rem">Kashmir</div><div class="heritage-desc">Pashmina, Walnut wood, Carpets</div></div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="heritage-card" style="height:200px">
+              <img src="https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=400&q=80" alt="Bengal crafts">
+              <div class="heritage-overlay"><div class="heritage-title" style="font-size:1.1rem">West Bengal</div><div class="heritage-desc">Kantha, Patachitra, Baluchari</div></div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="heritage-card" style="height:200px">
+              <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400&q=80" alt="UP crafts">
+              <div class="heritage-overlay"><div class="heritage-title" style="font-size:1.1rem">Uttar Pradesh</div><div class="heritage-desc">Banarasi silk, Chikankari, Brass</div></div>
+            </div>
           </div>
         </div>
-        <div class="col-6 col-lg-2">
-          <h5>Shop</h5>
-          <a href="/products.html">All Products</a>
-          <a href="/products.html?category=textiles">Textiles</a>
-          <a href="/products.html?category=pottery">Pottery</a>
-          <a href="/products.html?category=jewelry">Jewelry</a>
-        </div>
-        <div class="col-6 col-lg-2">
-          <h5>Company</h5>
-          <a href="/about.html">About Us</a>
-          <a href="/register.html?role=seller">Sell on Sanskriti</a>
-          <a href="#">Careers</a>
-          <a href="#">Press</a>
-        </div>
-        <div class="col-6 col-lg-2">
-          <h5>Support</h5>
-          <a href="#">Help Center</a>
-          <a href="#">Shipping</a>
-          <a href="#">Returns</a>
-          <a href="#">Contact</a>
-        </div>
-        <div class="col-6 col-lg-2">
-          <h5>Legal</h5>
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Service</a>
-          <a href="#">Cookie Policy</a>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>&copy; 2026 Sanskriti Market. All rights reserved. Made with love in India.</p>
       </div>
     </div>
-  </footer>
+  </div>
+</section>
 
-  <div id="chatbot-widget" class="chatbot-widget"></div>
+<!-- HERITAGE SECTION -->
+<section class="py-5" style="background:var(--cream)">
+  <div class="container">
+    <div class="text-center mb-5">
+      <div class="section-tag">Know Your Craft</div>
+      <h2 class="section-title">Heritage Knowledge Hub</h2>
+      <p class="section-desc mx-auto">Dive deep into the history, techniques, and cultural significance of India's greatest craft traditions.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <a href="/heritage.html#madhubani" class="heritage-card d-block text-decoration-none" style="height:260px">
+          <img src="https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=600&q=80" alt="Madhubani">
+          <div class="heritage-overlay">
+            <div class="heritage-title">Madhubani Art</div>
+            <div class="heritage-desc">2500-year-old folk art from Bihar's Mithila region</div>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-4">
+        <a href="/heritage.html#pashmina" class="heritage-card d-block text-decoration-none" style="height:260px">
+          <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=600&q=80" alt="Pashmina">
+          <div class="heritage-overlay">
+            <div class="heritage-title">Pashmina</div>
+            <div class="heritage-desc">The world's finest wool from Kashmir's Changthangi goats</div>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-4">
+        <a href="/heritage.html#banarasi" class="heritage-card d-block text-decoration-none" style="height:260px">
+          <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&q=80" alt="Banarasi">
+          <div class="heritage-overlay">
+            <div class="heritage-title">Banarasi Silk</div>
+            <div class="heritage-desc">Royal Mughal brocade woven in the holy city of Varanasi</div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="text-center mt-4">
+      <a href="/heritage.html" class="btn btn-outline-secondary rounded-pill px-5 py-2">Explore All Heritage Stories →</a>
+    </div>
+  </div>
+</section>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="/js/api.js"></script>
-  <script src="/js/auth.js"></script>
-  <script src="/js/main.js"></script>
-  <script src="/js/cart.js"></script>
-  <script src="/js/wishlist.js"></script>
-  <script src="/js/search.js"></script>
-  <script src="/js/chatbot.js"></script>
-  <script src="/js/recommendations.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      Recommendations.loadCategories();
-      Recommendations.loadFeatured();
-      Recommendations.loadTrending();
-      Recommendations.loadPersonalized();
-    });
-  </script>
+<!-- ARTISAN STORIES -->
+<section class="py-5 bg-white">
+  <div class="container">
+    <div class="text-center mb-5">
+      <div class="section-tag">Meet the Makers</div>
+      <h2 class="section-title">Artisan Stories</h2>
+      <p class="section-desc mx-auto">Every product connects you to a real person with a real story. Meet the hands behind the craft.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="artisan-card">
+          <div class="d-flex align-items-center gap-3 mb-16">
+            <img src="https://images.unsplash.com/photo-1583394293214-0b4e61f68c74?w=100&q=80" class="artisan-avatar" alt="Artisan">
+            <div>
+              <div style="font-weight:600;color:var(--dark)">Ramesh Kumar</div>
+              <div style="font-size:0.8rem;color:#999">Madhubani Artist • Bihar</div>
+              <span class="verified-badge mt-1 d-inline-block"><i class="bi bi-patch-check-fill me-1"></i>Verified Artisan</span>
+            </div>
+          </div>
+          <p style="color:#666;font-size:0.9rem;line-height:1.7;margin:16px 0">"My grandmother taught me Madhubani. Every line I draw is a prayer, every colour a celebration of life."</p>
+          <div class="d-flex gap-3" style="font-size:0.8rem;color:#999">
+            <span><i class="bi bi-bag me-1"></i>127 sales</span>
+            <span><i class="bi bi-star-fill me-1" style="color:var(--gold)"></i>4.9 rating</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="artisan-card">
+          <div class="d-flex align-items-center gap-3 mb-16">
+            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&q=80" class="artisan-avatar" alt="Artisan">
+            <div>
+              <div style="font-weight:600;color:var(--dark)">Fatima Begum</div>
+              <div style="font-size:0.8rem;color:#999">Pashmina Weaver • Kashmir</div>
+              <span class="verified-badge mt-1 d-inline-block"><i class="bi bi-patch-check-fill me-1"></i>Verified Artisan</span>
+            </div>
+          </div>
+          <p style="color:#666;font-size:0.9rem;line-height:1.7;margin:16px 0">"A single shawl takes me 3 months. When you wear it, you carry the mountains of Kashmir with you."</p>
+          <div class="d-flex gap-3" style="font-size:0.8rem;color:#999">
+            <span><i class="bi bi-bag me-1"></i>89 sales</span>
+            <span><i class="bi bi-star-fill me-1" style="color:var(--gold)"></i>5.0 rating</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="artisan-card">
+          <div class="d-flex align-items-center gap-3 mb-16">
+            <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=100&q=80" class="artisan-avatar" alt="Artisan">
+            <div>
+              <div style="font-weight:600;color:var(--dark)">Priya Sharma</div>
+              <div style="font-size:0.8rem;color:#999">Blue Pottery Artist • Jaipur</div>
+              <span class="verified-badge mt-1 d-inline-block"><i class="bi bi-patch-check-fill me-1"></i>Verified Artisan</span>
+            </div>
+          </div>
+          <p style="color:#666;font-size:0.9rem;line-height:1.7;margin:16px 0">"Blue pottery has no clay — it's made from quartz and love. My family has been doing this for 200 years."</p>
+          <div class="d-flex gap-3" style="font-size:0.8rem;color:#999">
+            <span><i class="bi bi-bag me-1"></i>203 sales</span>
+            <span><i class="bi bi-star-fill me-1" style="color:var(--gold)"></i>4.8 rating</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="py-5" style="background:var(--cream)">
+  <div class="container">
+    <div class="text-center mb-5">
+      <div class="section-tag">What People Say</div>
+      <h2 class="section-title">Loved Worldwide</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="testimonial-card">
+          <div class="stars mb-3">★★★★★</div>
+          <p class="testimonial-text">"The Madhubani painting I ordered is absolutely stunning. The colours, the detail — it's now the centrepiece of my living room. Shipping to London was fast!"</p>
+          <div class="d-flex align-items-center gap-3">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=50&q=80" style="width:44px;height:44px;border-radius:50%;object-fit:cover" alt="">
+            <div><div class="testimonial-author">Sarah Mitchell</div><div class="testimonial-location"><span class="flag">🇬🇧</span> London, UK</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="testimonial-card">
+          <div class="stars mb-3">★★★★★</div>
+          <p class="testimonial-text">"My Pashmina shawl passed the ring test — it's absolutely genuine. The seller even sent a handwritten note about the artisan who made it. So special!"</p>
+          <div class="d-flex align-items-center gap-3">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&q=80" style="width:44px;height:44px;border-radius:50%;object-fit:cover" alt="">
+            <div><div class="testimonial-author">James Chen</div><div class="testimonial-location"><span class="flag">🇺🇸</span> San Francisco, USA</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="testimonial-card">
+          <div class="stars mb-3">★★★★★</div>
+          <p class="testimonial-text">"I bought Channapatna toys for my daughter. The quality is incredible, completely natural materials. She loves them! Will definitely order again from India."</p>
+          <div class="d-flex align-items-center gap-3">
+            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=50&q=80" style="width:44px;height:44px;border-radius:50%;object-fit:cover" alt="">
+            <div><div class="testimonial-author">Emma Weber</div><div class="testimonial-location"><span class="flag">🇩🇪</span> Berlin, Germany</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section py-5">
+  <div class="container text-center py-4">
+    <div style="font-size:3rem;margin-bottom:16px">🪔</div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:2.5rem;margin-bottom:16px">Become an Artisan on Sanskriti Market</h2>
+    <p style="color:rgba(255,255,255,0.8);font-size:1.05rem;max-width:560px;margin:0 auto 32px;line-height:1.8">Join 500+ artisans already selling their crafts to buyers worldwide. Free to join, no monthly fees.</p>
+    <a href="/register.html?role=seller" class="btn-hero"><i class="bi bi-shop me-2"></i>Open Your Store — It's Free</a>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="py-5 bg-white">
+  <div class="container">
+    <div class="row justify-content-center text-center">
+      <div class="col-lg-6">
+        <div class="section-tag">Stay Connected</div>
+        <h2 class="section-title">Get Craft Stories in Your Inbox</h2>
+        <p class="text-muted mb-4">New arrivals, artisan stories, heritage guides — once a week, beautifully curated.</p>
+        <div class="d-flex justify-content-center">
+          <input type="email" class="newsletter-input" placeholder="your@email.com" id="nl-email">
+          <button class="newsletter-btn" onclick="subscribeNewsletter()">Subscribe</button>
+        </div>
+        <div id="nl-msg" class="mt-3" style="display:none;color:green;font-size:0.9rem">Thank you! Welcome to the Sanskriti family 🪔</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="pt-5 pb-3">
+  <div class="container">
+    <div class="row g-4 pb-4" style="border-bottom:1px solid rgba(255,255,255,0.1)">
+      <div class="col-lg-4">
+        <div class="footer-brand mb-3">Sanskriti <span>Market</span></div>
+        <p style="font-size:0.9rem;line-height:1.8;max-width:280px">Connecting India's master craftspeople with buyers who appreciate authenticity, heritage, and soul.</p>
+        <div class="d-flex gap-3 mt-3">
+          <a href="#" style="color:var(--gold);font-size:1.3rem"><i class="bi bi-instagram"></i></a>
+          <a href="#" style="color:var(--gold);font-size:1.3rem"><i class="bi bi-facebook"></i></a>
+          <a href="#" style="color:var(--gold);font-size:1.3rem"><i class="bi bi-pinterest"></i></a>
+          <a href="#" style="color:var(--gold);font-size:1.3rem"><i class="bi bi-youtube"></i></a>
+        </div>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h6>Shop</h6>
+        <a href="/products.html?category=textiles">Textiles</a>
+        <a href="/products.html?category=pottery">Pottery</a>
+        <a href="/products.html?category=jewelry">Jewelry</a>
+        <a href="/products.html?category=paintings">Paintings</a>
+        <a href="/products.html?isHeritageCraft=true">Heritage Crafts</a>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h6>Discover</h6>
+        <a href="/india-craft-map.html">Craft Map</a>
+        <a href="/heritage.html">Heritage Hub</a>
+        <a href="/products.html?region=rajasthan">Rajasthan</a>
+        <a href="/products.html?region=kashmir">Kashmir</a>
+        <a href="/products.html?giTagged=true">GI Tagged</a>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h6>Sell</h6>
+        <a href="/register.html?role=seller">Become a Seller</a>
+        <a href="/seller/dashboard.html">Seller Dashboard</a>
+        <a href="#">Seller Guide</a>
+        <a href="#">Success Stories</a>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h6>Help</h6>
+        <a href="/about.html">About Us</a>
+        <a href="mailto:sanskriti.markett@gmail.com">Contact Us</a>
+        <a href="#">Shipping Policy</a>
+        <a href="#">Return Policy</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+    </div>
+    <div class="pt-3 d-flex flex-wrap justify-content-between align-items-center gap-2">
+      <p class="mb-0" style="font-size:0.85rem">© 2026 Sanskriti Market. Made with ❤️ in India.</p>
+      <p class="mb-0" style="font-size:0.85rem">Contact: <a href="mailto:sanskriti.markett@gmail.com" style="color:var(--gold)">sanskriti.markett@gmail.com</a></p>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/api.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/main.js"></script>
+<script>
+  // Load featured products
+  async function loadFeaturedProducts() {
+    try {
+      const res = await API.get('/api/products?isFeatured=true&limit=4');
+      const products = res.data || res.products || [];
+      const container = document.getElementById('featured-products');
+      if (!products.length) {
+        container.innerHTML = '<div class="col-12 text-center py-5" style="color:#aaa"><p>Products coming soon! Check back shortly.</p><a href="/products.html" class="btn btn-outline-secondary rounded-pill px-4">Browse All Products</a></div>';
+        return;
+      }
+      container.innerHTML = products.map(p => `
+        <div class="col-6 col-md-3">
+          <a href="/product-detail.html?id=${p._id}" class="text-decoration-none">
+            <div class="product-card">
+              <div class="product-img-wrap">
+                <img src="${p.images?.[0]?.url || 'https://images.unsplash.com/photo-1602910344008-22f323cc1817?w=400'}" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1602910344008-22f323cc1817?w=400'">
+                ${p.isHeritageCraft ? '<span class="product-badge">Heritage</span>' : ''}
+                ${p.giTagged ? '<span class="product-badge product-badge-gold" style="top:44px">GI Tag</span>' : ''}
+              </div>
+              <div class="product-body">
+                <div class="product-region">${p.region || 'India'}</div>
+                <div class="product-name">${p.name}</div>
+                <div class="d-flex align-items-center justify-content-between">
+                  <div>
+                    <span class="product-price">₹${Number(p.price).toLocaleString('en-IN')}</span>
+                    ${p.comparePrice ? `<span class="product-price-old">₹${Number(p.comparePrice).toLocaleString('en-IN')}</span>` : ''}
+                  </div>
+                  <div class="stars">${'★'.repeat(Math.round(p.rating || 0))}</div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>`).join('');
+    } catch(e) {
+      document.getElementById('featured-products').innerHTML = '<div class="col-12 text-center py-4" style="color:#aaa">Loading products...</div>';
+    }
+  }
+
+  // Newsletter
+  function subscribeNewsletter() {
+    const email = document.getElementById('nl-email').value;
+    if (!email) return;
+    document.getElementById('nl-msg').style.display = 'block';
+    document.getElementById('nl-email').value = '';
+  }
+
+  // Update navbar based on login status
+  function updateNavbar() {
+    const user = Auth.getUser();
+    if (user) {
+      document.getElementById('nav-auth').style.display = 'none';
+      document.getElementById('nav-user').style.display = 'flex';
+      document.getElementById('nav-username').textContent = 'Hi, ' + user.name.split(' ')[0];
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    loadFeaturedProducts();
+    updateNavbar();
+  });
+</script>
 </body>
 </html>
