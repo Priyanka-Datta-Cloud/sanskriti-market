@@ -1,69 +1,83 @@
 const Product = require('../models/Product');
 const Store = require('../models/Store');
 const { successResponse, errorResponse } = require('../utils/apiResponse');
+const { sanitizeSearch, calculatePagination } = require('../utils/helpers');
 
 const search = async (req, res) => {
   try {
-    const { q, category, region, minPrice, maxPrice, sort = 'newest', page = 1, limit = 12 } = req.query;
-    if (!q && !category && !region) return errorResponse(res, 400, 'Provide a search query, category, or region.');
-
-    const filter = { isActive: true, isApproved: true };
-    if (q) filter.$text = { $search: q };
-    if (category) filter.category = category;
-    if (region) filter.region = region;
-    if (minPrice || maxPrice) {
-      filter.price = {};
-      if (minPrice) filter.price.$gte = parseFloat(minPrice);
-      if (maxPrice) filter.price.$lte = parseFloat(maxPrice);
+    const { q, type = 'all' } = req.query;
+    if (!q || q.trim().length < 2) {
+      return errorResponse(res, 400, 'Search query must be at least 2 characters.');
     }
 
-    let sortObj = { createdAt: -1 };
-    if (sort === 'price_asc') sortObj = { price: 1 };
-    else if (sort === 'price_desc') sortObj = { price: -1 };
-    else if (sort === 'rating') sortObj = { rating: -1 };
-    else if (sort === 'bestseller') sortObj = { soldCount: -1 };
+    const regex = new RegExp(sanitizeSearch(q), 'i');
+    const { page, limit, skip } = calculatePagination(req.query.page, req.query.limit);
+    const results = { products: [], stores: [], total: 0 };
 
-    const skip = (parseInt(page) - 1) * parseInt(limit);
-    const [products, total] = await Promise.all([
-      Product.find(filter).sort(sortObj).skip(skip).limit(parseInt(limit))
-        .populate('store', 'name slug'),
-      Product.countDocuments(filter),
-    ]);
-
-    // Also search stores if q present
-    let stores = [];
-    if (q) {
-      stores = await Store.find({
-        isActive: true,
-        $or: [{ name: new RegExp(q, 'i') }, { description: new RegExp(q, 'i') }, { craftTypes: new RegExp(q, 'i') }],
-      }).limit(3).select('name slug logo tagline location');
+    if (type === 'all' || type === 'products') {
+      const [products, productCount] = await Promise.all([
+        Product.find({
+          isActive: true,
+          $or: [
+            { name: regex },
+            { description: regex },
+            { tags: regex },
+            { category: regex },
+            { region: regex },
+          ],
+        })
+          .populate('store', 'name slug')
+          .sort({ rating: -1 })
+          .skip(skip)
+          .limit(limit),
+        Product.countDocuments({
+          isActive: true,
+          $or: [{ name: regex }, { description: regex }, { tags: regex }],
+        }),
+      ]);
+      results.products = products;
+      results.productCount = productCount;
     }
 
-    return successResponse(res, 200, 'Search results.', {
-      products, stores, total, page: parseInt(page),
-      totalPages: Math.ceil(total / parseInt(limit)),
-      query: q || '',
-    });
-  } catch (error) { return errorResponse(res, 500, error.message); }
+    if (type === 'all' || type === 'stores') {
+      const [stores, storeCount] = await Promise.all([
+        Store.find({
+          isActive: true,
+          $or: [{ name: regex }, { description: regex }, { craftSpecialty: regex }],
+        })
+          .populate('owner', 'name')
+          .skip(skip)
+          .limit(limit),
+        Store.countDocuments({
+          isActive: true,
+          $or: [{ name: regex }, { description: regex }],
+        }),
+      ]);
+      results.stores = stores;
+      results.storeCount = storeCount;
+    }
+
+    results.total = (results.productCount || 0) + (results.storeCount || 0);
+    results.query = q;
+
+    return successResponse(res, 200, 'Search results.', results);
+  } catch (error) {
+    return errorResponse(res, 500, error.message);
+  }
 };
 
-const autocomplete = async (req, res) => {
-  try {
-    const { q } = req.query;
-    if (!q || q.length < 2) return successResponse(res, 200, 'Suggestions.', { suggestions: [] });
-
-    const [products, stores] = await Promise.all([
-      Product.find({ isActive: true, isApproved: true, name: new RegExp(q, 'i') })
-        .select('name category region').limit(5),
-      Store.find({ isActive: true, name: new RegExp(q, 'i') }).select('name').limit(3),
-    ]);
-
-    const suggestions = [
-      ...products.map(p => ({ type: 'product', label: p.name, category: p.category, region: p.region })),
-      ...stores.map(s => ({ type: 'store', label: s.name + ' (Store)' })),
-    ];
-    return successResponse(res, 200, 'Suggestions.', { suggestions });
-  } catch (error) { return errorResponse(res, 500, error.message); }
+const getCategories = async (req, res) => {
+  const categories = [
+    { id: 'textiles', name: 'Textiles', icon: 'bi-scissors', description: 'Handwoven sarees, block prints, and fabrics' },
+    { id: 'pottery', name: 'Pottery', icon: 'bi-circle', description: 'Terracotta, blue pottery, and ceramic art' },
+    { id: 'jewelry', name: 'Jewelry', icon: 'bi-gem', description: 'Silver, temple, and tribal jewelry' },
+    { id: 'woodwork', name: 'Woodwork', icon: 'bi-tree', description: 'Carved furniture and decorative pieces' },
+    { id: 'metalwork', name: 'Metalwork', icon: 'bi-hammer', description: 'Brass, copper, and bronze crafts' },
+    { id: 'paintings', name: 'Paintings', icon: 'bi-palette', description: 'Madhubani, Warli, and folk art' },
+    { id: 'home-decor', name: 'Home Decor', icon: 'bi-house-heart', description: 'Lamps, wall art, and accents' },
+    { id: 'accessories', name: 'Accessories', icon: 'bi-bag-heart', description: 'Bags, scarves, and artisan accessories' },
+  ];
+  return successResponse(res, 200, 'Categories retrieved.', { categories });
 };
 
-module.exports = { search, autocomplete };
+module.exports = { search, getCategories };

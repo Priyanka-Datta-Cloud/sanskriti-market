@@ -1,48 +1,30 @@
 const Product = require('../models/Product');
 const Store = require('../models/Store');
-const slugify = require('slugify');
+const Story = require('../models/Story');
+const User = require('../models/User');
 const { successResponse, errorResponse, paginatedResponse } = require('../utils/apiResponse');
-const { calculatePagination } = require('../utils/helpers');
+const { calculatePagination, getImagePlaceholder } = require('../utils/helpers');
+const { getSimilarProducts } = require('../services/recommendationService');
 
 const getProducts = async (req, res) => {
   try {
-    const { page, limit, skip } = calculatePagination(req.query.page, req.query.limit || 12);
-    const filter = { isActive: true, isApproved: true };
+    const { page, limit, skip } = calculatePagination(req.query.page, req.query.limit);
+    const filter = { isActive: true };
 
     if (req.query.category) filter.category = req.query.category;
-    if (req.query.region) filter.region = req.query.region;
-    if (req.query.craftType) filter.craftType = new RegExp(req.query.craftType, 'i');
-    if (req.query.isHandmade === 'true') filter.isHandmade = true;
-    if (req.query.isSustainable === 'true') filter.isSustainable = true;
-    if (req.query.isHeritageCraft === 'true') filter.isHeritageCraft = true;
-    if (req.query.giTagged === 'true') filter.giTagged = true;
-    if (req.query.isFeatured === 'true') filter.isFeatured = true;
-    if (req.query.minPrice || req.query.maxPrice) {
-      filter.price = {};
-      if (req.query.minPrice) filter.price.$gte = parseFloat(req.query.minPrice);
-      if (req.query.maxPrice) filter.price.$lte = parseFloat(req.query.maxPrice);
-    }
-    if (req.query.rating) filter.rating = { $gte: parseFloat(req.query.rating) };
     if (req.query.store) filter.store = req.query.store;
-    if (req.query.seller) filter.seller = req.query.seller;
+    if (req.query.featured === 'true') filter.isFeatured = true;
+    if (req.query.minPrice) filter.price = { ...filter.price, $gte: parseFloat(req.query.minPrice) };
+    if (req.query.maxPrice) filter.price = { ...filter.price, $lte: parseFloat(req.query.maxPrice) };
 
-    // Text search
-    if (req.query.q) {
-      filter.$text = { $search: req.query.q };
-    }
-
-    // Sorting
     let sort = { createdAt: -1 };
-    if (req.query.sort === 'price_asc') sort = { price: 1 };
-    else if (req.query.sort === 'price_desc') sort = { price: -1 };
-    else if (req.query.sort === 'rating') sort = { rating: -1 };
-    else if (req.query.sort === 'bestseller') sort = { soldCount: -1 };
-    else if (req.query.sort === 'newest') sort = { createdAt: -1 };
+    if (req.query.sort === 'price-asc') sort = { price: 1 };
+    if (req.query.sort === 'price-desc') sort = { price: -1 };
+    if (req.query.sort === 'rating') sort = { rating: -1 };
+    if (req.query.sort === 'popular') sort = { soldCount: -1 };
 
     const [products, total] = await Promise.all([
-      Product.find(filter).sort(sort).skip(skip).limit(limit)
-        .populate('seller', 'name avatar')
-        .populate('store', 'name slug logo'),
+      Product.find(filter).populate('store', 'name slug logo').sort(sort).skip(skip).limit(limit),
       Product.countDocuments(filter),
     ]);
 
@@ -54,20 +36,34 @@ const getProducts = async (req, res) => {
 
 const getProduct = async (req, res) => {
   try {
-    const query = req.params.id.match(/^[0-9a-fA-F]{24}$/)
-      ? { _id: req.params.id }
-      : { slug: req.params.id };
+    const query = req.params.slug
+      ? { slug: req.params.slug }
+      : { _id: req.params.id };
 
-    const product = await Product.findOne({ ...query, isActive: true })
-      .populate('seller', 'name avatar')
-      .populate('store', 'name slug logo tagline');
+    const product = await Product.findOne(query)
+      .populate('store', 'name slug logo location craftSpecialty rating')
+      .populate('story');
 
-    if (!product) return errorResponse(res, 404, 'Product not found.');
+    if (!product || !product.isActive) {
+      return errorResponse(res, 404, 'Product not found.');
+    }
 
-    // Increment view count
-    Product.findByIdAndUpdate(product._id, { $inc: { viewCount: 1 } }).exec();
+    product.viewCount += 1;
+    await product.save();
 
-    return successResponse(res, 200, 'Product retrieved.', { product });
+    if (req.user) {
+      await User.findByIdAndUpdate(req.user._id, {
+        $push: {
+          browsingHistory: {
+            $each: [{ productId: product._id, viewedAt: new Date() }],
+            $slice: -20,
+          },
+        },
+      });
+    }
+
+    const similar = await getSimilarProducts(product._id);
+    return successResponse(res, 200, 'Product retrieved.', { product, similar });
   } catch (error) {
     return errorResponse(res, 500, error.message);
   }
@@ -76,30 +72,18 @@ const getProduct = async (req, res) => {
 const createProduct = async (req, res) => {
   try {
     const store = await Store.findOne({ owner: req.user._id });
-    if (!store) return errorResponse(res, 404, 'Create a store first.');
+    if (!store) return errorResponse(res, 400, 'Seller store not found.');
 
-    // Handle images — from Cloudinary upload or direct URLs
-    let images = [];
-    if (req.files && req.files.length > 0) {
-      images = req.files.map((f, i) => ({
-        url: f.path,
-        publicId: f.filename,
-        alt: `${req.body.name} image ${i + 1}`,
-      }));
-    } else if (req.body.images) {
-      images = Array.isArray(req.body.images) ? req.body.images : [{ url: req.body.images }];
-    }
-
-    const slug = slugify(req.body.name, { lower: true, strict: true }) + '-' + Date.now().toString(36);
-
-    const product = await Product.create({
+    const productData = {
       ...req.body,
-      images,
-      slug,
       seller: req.user._id,
       store: store._id,
-      isApproved: req.user.role === 'admin',
-    });
+      images: req.body.images || [{ url: getImagePlaceholder(req.body.category), alt: req.body.name }],
+    };
+
+    const product = await Product.create(productData);
+    store.productCount += 1;
+    await store.save();
 
     return successResponse(res, 201, 'Product created.', { product });
   } catch (error) {
@@ -109,21 +93,11 @@ const createProduct = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   try {
-    const filter = req.user.role === 'admin'
-      ? { _id: req.params.id }
-      : { _id: req.params.id, seller: req.user._id };
+    const product = await Product.findOne({ _id: req.params.id, seller: req.user._id });
+    if (!product) return errorResponse(res, 404, 'Product not found.');
 
-    let updateData = { ...req.body };
-    if (req.files && req.files.length > 0) {
-      updateData.images = req.files.map((f, i) => ({
-        url: f.path,
-        publicId: f.filename,
-        alt: `${req.body.name || 'Product'} image ${i + 1}`,
-      }));
-    }
-
-    const product = await Product.findOneAndUpdate(filter, updateData, { new: true, runValidators: true });
-    if (!product) return errorResponse(res, 404, 'Product not found or not authorized.');
+    Object.assign(product, req.body);
+    await product.save();
     return successResponse(res, 200, 'Product updated.', { product });
   } catch (error) {
     return errorResponse(res, 500, error.message);
@@ -132,37 +106,56 @@ const updateProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
   try {
-    const filter = req.user.role === 'admin'
-      ? { _id: req.params.id }
-      : { _id: req.params.id, seller: req.user._id };
-    const product = await Product.findOneAndUpdate(filter, { isActive: false }, { new: true });
-    if (!product) return errorResponse(res, 404, 'Product not found or not authorized.');
+    const product = await Product.findOne({ _id: req.params.id, seller: req.user._id });
+    if (!product) return errorResponse(res, 404, 'Product not found.');
+
+    product.isActive = false;
+    await product.save();
     return successResponse(res, 200, 'Product deactivated.');
   } catch (error) {
     return errorResponse(res, 500, error.message);
   }
 };
 
-const getFeaturedProducts = async (req, res) => {
+const getProductStory = async (req, res) => {
   try {
-    const products = await Product.find({ isActive: true, isApproved: true, isFeatured: true })
-      .sort({ soldCount: -1 }).limit(8)
-      .populate('store', 'name slug');
-    return successResponse(res, 200, 'Featured products.', { products });
+    const story = await Story.findOne({ product: req.params.productId }).populate('product', 'name category');
+    if (!story) return errorResponse(res, 404, 'Story not found.');
+    story.viewCount += 1;
+    await story.save();
+    return successResponse(res, 200, 'Story retrieved.', { story });
   } catch (error) {
     return errorResponse(res, 500, error.message);
   }
 };
 
-const getNewArrivals = async (req, res) => {
+const createProductStory = async (req, res) => {
   try {
-    const products = await Product.find({ isActive: true, isApproved: true })
-      .sort({ createdAt: -1 }).limit(8)
-      .populate('store', 'name slug');
-    return successResponse(res, 200, 'New arrivals.', { products });
+    const product = await Product.findOne({ _id: req.body.productId, seller: req.user._id });
+    if (!product) return errorResponse(res, 404, 'Product not found.');
+
+    let story = await Story.findOne({ product: product._id });
+    if (story) {
+      Object.assign(story, req.body);
+      await story.save();
+    } else {
+      story = await Story.create({ ...req.body, product: product._id });
+      product.story = story._id;
+      await product.save();
+    }
+
+    return successResponse(res, 201, 'Story saved.', { story });
   } catch (error) {
     return errorResponse(res, 500, error.message);
   }
 };
 
-module.exports = { getProducts, getProduct, createProduct, updateProduct, deleteProduct, getFeaturedProducts, getNewArrivals };
+module.exports = {
+  getProducts,
+  getProduct,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+  getProductStory,
+  createProductStory,
+};

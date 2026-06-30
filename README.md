@@ -1,307 +1,160 @@
-# 🪔 Sanskriti Market v2.0
-### Handcrafted in India. Treasured Worldwide.
+# Sanskriti Market
 
-A production-ready Indian handcraft marketplace — your direct competitor to Etsy for authentic Indian crafts.
+**Handcrafted in India. Treasured Worldwide.**
 
----
+A complete production-ready full-stack marketplace for authentic Indian handcrafted products. Connects master artisans with discerning collectors worldwide.
 
-## 🚀 What's New in v2.0
+## Features
 
-| Feature | Status |
-|---|---|
-| Razorpay Payment Integration | ✅ Complete |
-| Cloudinary Image Uploads | ✅ Complete |
-| Nodemailer Email System | ✅ Complete |
-| Product Reviews & Star Ratings | ✅ Complete |
-| Forgot/Reset Password | ✅ Complete |
-| Interactive India Craft Map | ✅ Complete |
-| Heritage Knowledge Hub | ✅ Complete |
-| Order Success Page with Confetti | ✅ Complete |
-| Dynamic Sitemap + SEO | ✅ Complete |
+- **Product Marketplace** — Browse curated handcrafted products across 8+ categories
+- **Creator Stores** — Individual artisan storefronts with stories and portfolios
+- **JWT Authentication** — Secure login for customers, sellers, and admins
+- **Seller Dashboard** — Manage products, orders, and store settings
+- **Admin Dashboard** — Platform management, user control, featured products
+- **AI Chatbot** — Gemini-powered shopping assistant
+- **AI Recommendations** — Personalized product suggestions
+- **Product Stories** — Rich narratives about artisans and craft heritage
+- **Search** — Full-text search across products and stores
+- **Cart & Wishlist** — Complete shopping experience
+- **SEO Optimized** — Sitemap, robots.txt, meta tags, Lighthouse-ready
+- **Responsive Design** — Mobile-first, premium luxury UI
 
----
+## Tech Stack
 
-## 📋 STEP-BY-STEP SETUP (Free, Zero Cost)
+| Layer | Technology |
+|-------|-----------|
+| Frontend | HTML5, CSS3, JavaScript, Bootstrap 5 |
+| Backend | Node.js, Express.js |
+| Database | MongoDB Atlas |
+| Auth | JWT |
+| AI | Google Gemini API |
+| Hosting | Vercel (frontend), Render (backend) |
 
-### STEP 1 — MongoDB Atlas (Free Database)
-1. Go to https://cloud.mongodb.com
-2. Click "Try Free" → Create account
-3. Create a free **M0** cluster (select any region)
-4. Click "Connect" → "Connect your application"
-5. Copy the connection string — looks like:
-   `mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/`
-6. Add `/sanskriti_market` at the end
-7. Paste into your `.env` as `MONGODB_URI`
+## Project Structure
 
-### STEP 2 — Cloudinary (Free Image Hosting)
-1. Go to https://cloudinary.com → Sign up free
-2. Go to Dashboard → copy:
-   - **Cloud Name**
-   - **API Key**
-   - **API Secret**
-3. Paste into `.env`:
-   ```
-   CLOUDINARY_CLOUD_NAME=your_cloud_name
-   CLOUDINARY_API_KEY=your_key
-   CLOUDINARY_API_SECRET=your_secret
-   ```
-
-### STEP 3 — Razorpay (Free Payment Gateway)
-1. Go to https://razorpay.com → Sign up free
-2. Complete KYC (required for live mode, not for testing)
-3. Go to Settings → API Keys → Generate Key
-4. Copy **Key ID** and **Key Secret**
-5. Paste into `.env`:
-   ```
-   RAZORPAY_KEY_ID=rzp_test_xxxxxxxxxxxx
-   RAZORPAY_KEY_SECRET=your_secret
-   ```
-6. **TEST mode** works without KYC — use `rzp_test_` prefix keys
-
-### STEP 4 — Gmail Email Setup (Free)
-1. Use any Gmail account
-2. Go to Google Account → Security → **2-Step Verification** (enable it)
-3. Go to Security → **App Passwords**
-4. Generate password for "Mail" → "Other device" → name it "Sanskriti Market"
-5. Copy the 16-character app password
-6. Paste into `.env`:
-   ```
-   EMAIL_USER=your.gmail@gmail.com
-   EMAIL_PASS=xxxx xxxx xxxx xxxx
-   EMAIL_FROM=Sanskriti Market <your.gmail@gmail.com>
-   ```
-
-### STEP 5 — Gemini AI (Free)
-1. Go to https://aistudio.google.com
-2. Click "Get API Key" → Create API Key
-3. Paste into `.env` as `GEMINI_API_KEY`
-
-### STEP 6 — Create Your .env File
-Copy `.env.example` to `.env` and fill all values:
-```bash
-cp .env.example .env
-# Now edit .env with your actual values
+```
+├── frontend/          # HTML, CSS, JavaScript pages
+├── backend/           # Express server entry point
+├── controllers/       # Route controllers
+├── models/            # Mongoose schemas
+├── routes/            # API routes
+├── middleware/        # Auth, validation, error handling
+├── services/          # Gemini AI, recommendations, email
+├── config/            # Database, JWT, Gemini config
+├── utils/             # Helpers, API responses, SEO
+├── database/          # Seed data, indexes
+├── assets/            # Static images and media
+├── public/            # robots.txt, sitemap.xml
+├── package.json
+├── vercel.json
+├── render.yaml
+└── .env.example
 ```
 
-### STEP 7 — Install & Run Locally
+## Quick Start
+
+### Prerequisites
+
+- Node.js 18+
+- MongoDB Atlas account
+- Google Gemini API key (optional, for AI features)
+
+### Installation
+
 ```bash
+# Clone or extract the project
+cd sanskriti-market
+
+# Install dependencies
 npm install
-npm run seed    # Creates demo data, admin account
-npm run dev     # Starts development server
-```
-Open http://localhost:5000
 
-**Default admin login:**
-- Email: `admin@sanskritimarket.com`
-- Password: `Admin@123456`
+# Configure environment
+cp .env.example .env
+# Edit .env with your MongoDB URI, JWT secret, and Gemini API key
 
----
-
-## 🌐 DEPLOY TO RENDER (Free, Live URL)
-
-### Step 1 — Push to GitHub
-```bash
-git init
-git add .
-git commit -m "Sanskriti Market v2.0"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/sanskriti-market.git
-git push -u origin main
-```
-
-### Step 2 — Deploy on Render
-1. Go to https://render.com → Sign up with GitHub
-2. Click **"New +"** → **"Web Service"**
-3. Connect your GitHub repo
-4. Settings:
-   - **Name**: sanskriti-market
-   - **Build Command**: `npm install`
-   - **Start Command**: `npm start`
-   - **Plan**: Free
-5. Click **"Environment"** tab → Add all your `.env` variables
-6. Also add: `CLIENT_URL = https://your-app.onrender.com`
-7. Click **"Create Web Service"**
-8. Wait 2-3 minutes → your site is LIVE!
-
-### Step 3 — Seed Production Database
-In Render dashboard → your service → **Shell** tab:
-```bash
+# Seed the database
 npm run seed
+
+# Start development server
+npm run dev
 ```
 
----
+Visit `http://localhost:5000`
 
-## 🔍 GET ON GOOGLE (SEO Steps)
+### Demo Accounts (after seeding)
 
-### Step 1 — Google Search Console
-1. Go to https://search.google.com/search-console
-2. Add property → URL prefix → enter your Render URL
-3. Verify with HTML tag method (add meta tag to index.html `<head>`)
-4. Submit sitemap: `https://your-app.onrender.com/sitemap.xml`
+| Role | Email | Password |
+|------|-------|----------|
+| Admin | admin@sanskritimarket.com | Admin@123456 |
+| Customer | customer@demo.com | Customer@123 |
+| Seller | priya@craftstudio.in | Seller@123 |
 
-### Step 2 — Google Business Profile
-1. Go to https://business.google.com
-2. Create free listing → add your website URL
-3. Takes 3-5 days to appear in search
+## API Endpoints
 
-### Step 3 — Bing Webmaster Tools
-1. Go to https://www.bing.com/webmasters
-2. Add your site → submit sitemap
-3. Free traffic from Bing & DuckDuckGo
-
----
-
-## 📁 Project Structure
-
-```
-sanskriti-market/
-├── backend/
-│   └── server.js              # Main Express server
-├── config/
-│   ├── db.js                  # MongoDB connection
-│   ├── jwt.js                 # JWT configuration
-│   └── cloudinary.js          # Cloudinary + Multer setup ⭐ NEW
-├── controllers/
-│   ├── authController.js      # Login, register, forgot password ⭐ UPDATED
-│   ├── paymentController.js   # Razorpay integration ⭐ NEW
-│   ├── reviewController.js    # Product reviews ⭐ NEW
-│   └── uploadController.js    # Image upload ⭐ NEW
-├── middleware/
-│   ├── auth.js                # JWT protect, authorize
-│   ├── errorHandler.js        # Global error handler
-│   └── validate.js            # express-validator helper
-├── models/
-│   ├── User.js                # + password reset fields ⭐ UPDATED
-│   ├── Product.js             # + region, craftType, giTagged ⭐ UPDATED
-│   ├── Order.js               # + Razorpay fields ⭐ UPDATED
-│   └── Review.js              # Reviews model
-├── routes/
-│   ├── authRoutes.js          # + forgot/reset password ⭐ UPDATED
-│   ├── paymentRoutes.js       # Razorpay routes ⭐ NEW
-│   ├── reviewRoutes.js        # Review CRUD ⭐ NEW
-│   └── uploadRoutes.js        # Image upload routes ⭐ NEW
-├── services/
-│   └── emailService.js        # Nodemailer email ⭐ UPDATED
-├── frontend/
-│   ├── checkout.html          # Checkout + Razorpay UI ⭐ NEW
-│   ├── order-success.html     # Order confirmation ⭐ NEW
-│   ├── reset-password.html    # Forgot/reset password ⭐ NEW
-│   ├── india-craft-map.html   # Interactive India map ⭐ NEW
-│   ├── heritage.html          # Heritage knowledge hub ⭐ NEW
-│   └── js/
-│       ├── api.js             # API client
-│       ├── auth.js            # Auth helpers
-│       └── reviews.js         # Reviews widget ⭐ NEW
-├── utils/
-│   ├── apiResponse.js         # Standardised API responses
-│   ├── helpers.js             # Pagination, sanitization
-│   └── seo.js                 # Sitemap generator
-├── public/
-│   └── robots.txt             # SEO robots file
-├── .env.example               # Environment template ⭐ UPDATED
-├── .gitignore
-├── package.json               # All dependencies ⭐ UPDATED
-├── render.yaml                # Render deployment config
-└── README.md                  # This file
-```
-
----
-
-## 🔌 API Reference
-
-### Auth
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | /api/auth/register | Register user/seller |
-| POST | /api/auth/login | Login |
-| POST | /api/auth/logout | Logout |
-| GET | /api/auth/me | Get current user |
-| PUT | /api/auth/profile | Update profile + avatar |
-| POST | /api/auth/forgot-password | Send reset email |
-| POST | /api/auth/reset-password/:token | Reset password |
+### Authentication
+- `POST /api/auth/register` — Register user
+- `POST /api/auth/login` — Login
+- `GET /api/auth/me` — Get profile
+- `PUT /api/auth/profile` — Update profile
 
 ### Products
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | /api/products | List with filters |
-| GET | /api/products/:id | Single product |
-| POST | /api/products | Create (seller) |
-| PUT | /api/products/:id | Update (seller) |
+- `GET /api/products` — List products (filters: category, price, sort)
+- `GET /api/products/slug/:slug` — Get product by slug
+- `POST /api/products` — Create product (seller)
+- `GET /api/products/story/:productId` — Get product story
 
-### Reviews ⭐ NEW
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | /api/products/:id/reviews | Get reviews + stats |
-| POST | /api/products/:id/reviews | Submit review |
-| PUT | /api/products/:id/reviews/:rid | Edit own review |
-| DELETE | /api/products/:id/reviews/:rid | Delete review |
-| POST | /api/products/:id/reviews/:rid/helpful | Mark helpful |
-
-### Payments ⭐ NEW
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | /api/payment/config | Get Razorpay key |
-| POST | /api/payment/create-order | Create Razorpay order |
-| POST | /api/payment/verify | Verify payment |
-| POST | /api/payment/webhook | Razorpay webhook |
-
-### Uploads ⭐ NEW
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | /api/upload/products | Upload product images (Cloudinary) |
-| DELETE | /api/upload/image | Delete image from Cloudinary |
+### Cart & Wishlist
+- `GET /api/cart` — Get cart
+- `POST /api/cart/add` — Add to cart
+- `GET /api/wishlist` — Get wishlist
+- `POST /api/wishlist/add` — Add to wishlist
 
 ### Orders
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | /api/orders | Create order |
-| GET | /api/orders | My orders |
-| GET | /api/orders/:id | Single order |
+- `POST /api/orders` — Place order
+- `GET /api/orders` — List orders
 
----
+### AI
+- `POST /api/ai/chat` — Chatbot
+- `GET /api/ai/recommendations` — Personalized recommendations
+- `GET /api/ai/trending` — Trending products
 
-## 💳 Test Payments (Razorpay Test Mode)
+### Search
+- `GET /api/search?q=query` — Search products and stores
+- `GET /api/search/categories` — List categories
 
-Use these test card details on checkout:
-- **Card**: 4111 1111 1111 1111
-- **Expiry**: Any future date
-- **CVV**: Any 3 digits
-- **OTP**: 1234 (when prompted)
+## Deployment
 
-For UPI test: use `success@razorpay`
+### Vercel (Frontend + API)
 
----
+```bash
+npm i -g vercel
+vercel
+```
 
-## 🛡️ Security Features
+Set environment variables in Vercel dashboard:
+- `MONGODB_URI`
+- `JWT_SECRET`
+- `GEMINI_API_KEY`
+- `CLIENT_URL`
 
-- JWT authentication with HttpOnly cookies
-- bcrypt password hashing (12 rounds)
-- Rate limiting (200 req/15min)
-- Helmet security headers
-- Input validation with express-validator
-- XSS protection via sanitization
-- Razorpay payment signature verification
-- Password reset token (SHA-256 hashed, 1hr expiry)
+### Render (Backend API)
 
----
+1. Connect your GitHub repository to Render
+2. Render will use `render.yaml` for configuration
+3. Set environment variables in Render dashboard
+4. Deploy
 
-## 📈 Your Advantage Over Etsy
+### MongoDB Atlas
 
-| Feature | Etsy | Sanskriti Market |
-|---|---|---|
-| India-specific craft regions | ❌ | ✅ India Craft Map |
-| GI Tag certification badges | ❌ | ✅ Built-in |
-| Heritage knowledge pages | ❌ | ✅ 8 craft deep-dives |
-| Craft story with every product | ❌ | ✅ Built-in |
-| Regional artisan discovery | ❌ | ✅ By state/region |
-| AI Heritage Guide (Gemini) | ❌ | ✅ Built-in |
-| INR pricing | ❌ | ✅ Native support |
-| Indian payment methods | ❌ | ✅ Razorpay (UPI, etc.) |
+1. Create a free cluster at [mongodb.com/atlas](https://www.mongodb.com/atlas)
+2. Create a database user
+3. Whitelist IP addresses (0.0.0.0/0 for development)
+4. Copy connection string to `MONGODB_URI`
 
----
+## Environment Variables
 
-## 📞 Support
+See `.env.example` for all required variables.
 
-Need help? Add an issue on GitHub or email the admin.
+## License
 
-**Built with ❤️ for India's artisans**
+MIT License — Sanskriti Market © 2026

@@ -588,34 +588,3 @@ img { max-width: 100%; height: auto; display: block; }
 @media (max-width: 480px) {
   .product-grid { grid-template-columns: 1fr; }
 }
-
-/* ===== NAVBAR GLOBAL STYLES ===== */
-.navbar-sanskriti {
-  background: rgba(26,10,15,0.97) !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  padding: 14px 0;
-  border-bottom: 1px solid rgba(201,169,98,0.15);
-}
-.navbar-brand {
-  font-family: 'Playfair Display', Georgia, serif !important;
-  font-size: 1.5rem !important;
-  color: #fff !important;
-  font-weight: 700;
-  letter-spacing: 1px;
-}
-.navbar-brand span { color: #C9A962 !important; }
-.nav-link { color: rgba(255,255,255,0.8) !important; font-size: 0.9rem; font-weight: 500; transition: color .2s !important; }
-.nav-link:hover { color: #C9A962 !important; }
-.btn-sanskriti { background: #8B2942 !important; color: #fff !important; border: none !important; border-radius: 25px !important; padding: 8px 20px !important; font-weight: 600 !important; }
-.btn-sanskriti:hover { background: #6d1f33 !important; color: #fff !important; }
-.btn-outline-sanskriti { background: transparent; color: #8B2942; border: 2px solid #8B2942; border-radius: 25px; padding: 8px 20px; font-weight: 600; cursor: pointer; transition: all .2s; }
-.btn-outline-sanskriti:hover { background: #8B2942; color: #fff; }
-
-/* ===== GLOBAL BODY ===== */
-body { font-family: 'Inter', system-ui, sans-serif; }
-
-/* ===== SCROLLBAR ===== */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #F5F0E8; }
-::-webkit-scrollbar-thumb { background: #C9A962; border-radius: 3px; }

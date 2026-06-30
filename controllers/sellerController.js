@@ -2,69 +2,71 @@ const Product = require('../models/Product');
 const Order = require('../models/Order');
 const Store = require('../models/Store');
 const { successResponse, errorResponse } = require('../utils/apiResponse');
-const { calculatePagination } = require('../utils/helpers');
 
 const getDashboard = async (req, res) => {
   try {
     const store = await Store.findOne({ owner: req.user._id });
-    if (!store) return errorResponse(res, 404, 'Store not found. Please set up your store.');
+    if (!store) return errorResponse(res, 404, 'Store not found.');
 
-    const [totalProducts, activeProducts, pendingProducts] = await Promise.all([
-      Product.countDocuments({ store: store._id }),
-      Product.countDocuments({ store: store._id, isActive: true, isApproved: true }),
-      Product.countDocuments({ store: store._id, isApproved: false }),
+    const [productCount, orderItems, revenue] = await Promise.all([
+      Product.countDocuments({ seller: req.user._id, isActive: true }),
+      Order.find({ 'items.product': { $in: await Product.find({ seller: req.user._id }).distinct('_id') } })
+        .sort({ createdAt: -1 })
+        .limit(10),
+      Order.aggregate([
+        { $unwind: '$items' },
+        {
+          $lookup: {
+            from: 'products',
+            localField: 'items.product',
+            foreignField: '_id',
+            as: 'product',
+          },
+        },
+        { $unwind: '$product' },
+        { $match: { 'product.seller': req.user._id } },
+        { $group: { _id: null, total: { $sum: { $multiply: ['$items.price', '$items.quantity'] } } } },
+      ]),
     ]);
 
-    // Orders for seller's products
-    const sellerProductIds = await Product.find({ store: store._id }).distinct('_id');
-    const orders = await Order.find({ 'items.product': { $in: sellerProductIds } });
-    const totalRevenue = orders.filter(o => o.paymentStatus === 'paid').reduce((s, o) => {
-      const sellerItems = o.items.filter(i => sellerProductIds.some(id => id.equals(i.product)));
-      return s + sellerItems.reduce((ss, i) => ss + i.price * i.quantity, 0);
-    }, 0);
-
-    const topProducts = await Product.find({ store: store._id, isActive: true })
-      .sort({ soldCount: -1 }).limit(5).select('name price soldCount viewCount rating images');
+    const recentProducts = await Product.find({ seller: req.user._id })
+      .sort({ createdAt: -1 })
+      .limit(5);
 
     return successResponse(res, 200, 'Seller dashboard.', {
       store,
       stats: {
-        totalProducts, activeProducts, pendingProducts,
-        totalOrders: orders.length,
-        totalRevenue: Math.round(totalRevenue),
-        pendingOrders: orders.filter(o => o.status === 'pending' || o.status === 'confirmed').length,
+        products: productCount,
+        orders: orderItems.length,
+        revenue: revenue[0]?.total || 0,
       },
-      topProducts,
+      recentProducts,
+      recentOrders: orderItems,
     });
-  } catch (error) { return errorResponse(res, 500, error.message); }
+  } catch (error) {
+    return errorResponse(res, 500, error.message);
+  }
 };
 
-const getMyProducts = async (req, res) => {
+const getSellerProducts = async (req, res) => {
   try {
-    const { page, limit, skip } = calculatePagination(req.query.page, req.query.limit);
-    const store = await Store.findOne({ owner: req.user._id });
-    if (!store) return errorResponse(res, 404, 'Store not found.');
-    const filter = { store: store._id };
-    if (req.query.status === 'active') { filter.isActive = true; filter.isApproved = true; }
-    else if (req.query.status === 'pending') filter.isApproved = false;
-    else if (req.query.status === 'inactive') filter.isActive = false;
-    const [products, total] = await Promise.all([
-      Product.find(filter).sort({ createdAt: -1 }).skip(skip).limit(limit),
-      Product.countDocuments(filter),
-    ]);
-    return res.json({ success: true, data: products, total, page, totalPages: Math.ceil(total / limit) });
-  } catch (error) { return errorResponse(res, 500, error.message); }
+    const products = await Product.find({ seller: req.user._id }).sort({ createdAt: -1 });
+    return successResponse(res, 200, 'Products retrieved.', { products });
+  } catch (error) {
+    return errorResponse(res, 500, error.message);
+  }
 };
 
-const getMyOrders = async (req, res) => {
+const getSellerOrders = async (req, res) => {
   try {
-    const store = await Store.findOne({ owner: req.user._id });
-    if (!store) return errorResponse(res, 404, 'Store not found.');
-    const sellerProductIds = await Product.find({ store: store._id }).distinct('_id');
-    const orders = await Order.find({ 'items.product': { $in: sellerProductIds } })
-      .sort({ createdAt: -1 }).limit(50).populate('user', 'name email');
-    return successResponse(res, 200, 'Seller orders.', { orders });
-  } catch (error) { return errorResponse(res, 500, error.message); }
+    const productIds = await Product.find({ seller: req.user._id }).distinct('_id');
+    const orders = await Order.find({ 'items.product': { $in: productIds } })
+      .populate('user', 'name email')
+      .sort({ createdAt: -1 });
+    return successResponse(res, 200, 'Orders retrieved.', { orders });
+  } catch (error) {
+    return errorResponse(res, 500, error.message);
+  }
 };
 
-module.exports = { getDashboard, getMyProducts, getMyOrders };
+module.exports = { getDashboard, getSellerProducts, getSellerOrders };

@@ -7,32 +7,45 @@ const storeSchema = new mongoose.Schema(
     slug: { type: String, unique: true },
     description: { type: String, maxlength: 2000 },
     tagline: { type: String, maxlength: 200 },
-    owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, unique: true },
     logo: { type: String, default: '' },
     banner: { type: String, default: '' },
-    location: { city: String, state: String, region: String, country: { type: String, default: 'India' } },
-    socialLinks: { instagram: String, facebook: String, youtube: String, website: String },
-    craftTypes: [String],
-    bio: { type: String, maxlength: 3000 },
-    story: { type: String, maxlength: 5000 },
-    isActive: { type: Boolean, default: true },
-    isVerified: { type: Boolean, default: false },
-    verifiedAt: Date,
-    rating: { type: Number, default: 0 },
-    totalSales: { type: Number, default: 0 },
-    totalRevenue: { type: Number, default: 0 },
+    location: {
+      city: String,
+      state: String,
+      region: String,
+      country: { type: String, default: 'India' },
+    },
+    craftSpecialty: [{ type: String }],
+    socialLinks: {
+      instagram: String,
+      facebook: String,
+      website: String,
+    },
+    rating: { type: Number, default: 0, min: 0, max: 5 },
+    reviewCount: { type: Number, default: 0 },
+    productCount: { type: Number, default: 0 },
     followerCount: { type: Number, default: 0 },
-    returnPolicy: { type: String, default: '7-day return policy on all items.' },
-    shippingPolicy: { type: String, default: 'Ships within 3-5 business days across India.' },
+    isVerified: { type: Boolean, default: false },
+    isActive: { type: Boolean, default: true },
+    establishedYear: Number,
+    story: String,
+    policies: {
+      shipping: String,
+      returns: String,
+    },
   },
   { timestamps: true }
 );
 
+storeSchema.index({ name: 'text', description: 'text' });
+storeSchema.index({ slug: 1 });
+
 storeSchema.pre('save', function (next) {
-  if (this.isModified('name') && !this.slug) {
-    this.slug = slugify(this.name, { lower: true, strict: true }) + '-' + Date.now().toString(36);
+  if (!this.slug || this.isModified('name')) {
+    this.slug = slugify(this.name, { lower: true, strict: true });
   }
   next();
 });
 
-module.exports = mongoose.models.Store || mongoose.model('Store', storeSchema);
+module.exports = mongoose.model('Store', storeSchema);

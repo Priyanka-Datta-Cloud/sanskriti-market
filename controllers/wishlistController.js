@@ -1,28 +1,62 @@
 const Wishlist = require('../models/Wishlist');
+const Product = require('../models/Product');
 const { successResponse, errorResponse } = require('../utils/apiResponse');
 
 const getWishlist = async (req, res) => {
   try {
-    const wl = await Wishlist.findOne({ user: req.user._id })
-      .populate({ path: 'products', select: 'name price images rating isActive store', match: { isActive: true } });
-    const products = (wl?.products || []).filter(Boolean);
-    return successResponse(res, 200, 'Wishlist retrieved.', { products, count: products.length });
-  } catch (error) { return errorResponse(res, 500, error.message); }
+    let wishlist = await Wishlist.findOne({ user: req.user._id }).populate('products', 'name price images slug rating store');
+    if (!wishlist) {
+      wishlist = await Wishlist.create({ user: req.user._id, products: [] });
+    }
+    return successResponse(res, 200, 'Wishlist retrieved.', { wishlist });
+  } catch (error) {
+    return errorResponse(res, 500, error.message);
+  }
 };
 
-const toggleWishlist = async (req, res) => {
+const addToWishlist = async (req, res) => {
   try {
     const { productId } = req.body;
-    if (!productId) return errorResponse(res, 400, 'productId required.');
-    let wl = await Wishlist.findOne({ user: req.user._id });
-    if (!wl) wl = await Wishlist.create({ user: req.user._id, products: [] });
-    const idx = wl.products.findIndex(p => p.toString() === productId);
-    let action;
-    if (idx > -1) { wl.products.splice(idx, 1); action = 'removed'; }
-    else { wl.products.push(productId); action = 'added'; }
-    await wl.save();
-    return successResponse(res, 200, `Product ${action} ${action === 'added' ? 'to' : 'from'} wishlist.`, { action, count: wl.products.length });
-  } catch (error) { return errorResponse(res, 500, error.message); }
+    const product = await Product.findById(productId);
+    if (!product || !product.isActive) return errorResponse(res, 404, 'Product not found.');
+
+    let wishlist = await Wishlist.findOne({ user: req.user._id });
+    if (!wishlist) wishlist = await Wishlist.create({ user: req.user._id, products: [] });
+
+    if (!wishlist.products.includes(productId)) {
+      wishlist.products.push(productId);
+      await wishlist.save();
+    }
+
+    await wishlist.populate('products', 'name price images slug rating');
+    return successResponse(res, 200, 'Added to wishlist.', { wishlist });
+  } catch (error) {
+    return errorResponse(res, 500, error.message);
+  }
 };
 
-module.exports = { getWishlist, toggleWishlist };
+const removeFromWishlist = async (req, res) => {
+  try {
+    const wishlist = await Wishlist.findOne({ user: req.user._id });
+    if (!wishlist) return errorResponse(res, 404, 'Wishlist not found.');
+
+    wishlist.products = wishlist.products.filter((p) => p.toString() !== req.params.productId);
+    await wishlist.save();
+    await wishlist.populate('products', 'name price images slug rating');
+    return successResponse(res, 200, 'Removed from wishlist.', { wishlist });
+  } catch (error) {
+    return errorResponse(res, 500, error.message);
+  }
+};
+
+const checkWishlist = async (req, res) => {
+  try {
+    const wishlist = await Wishlist.findOne({ user: req.user._id });
+    const isInWishlist = wishlist?.products.some((p) => p.toString() === req.params.productId) || false;
+    return successResponse(res, 200, 'Wishlist status.', { isInWishlist });
+  } catch (error) {
+    return errorResponse(res, 500, error.message);
+  }
+};
+
+module.exports = { getWishlist, addToWishlist, removeFromWishlist, checkWishlist };

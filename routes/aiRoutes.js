@@ -1,13 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { protect } = require('../middleware/auth');
-const rateLimit = require('express-rate-limit');
-const { heritageGuide, giftFinder, generateProductDescription } = require('../controllers/aiController');
+const aiController = require('../controllers/aiController');
+const { optionalAuth } = require('../middleware/auth');
 
-const aiLimiter = rateLimit({ windowMs: 60 * 1000, max: 10, message: { success: false, message: 'Too many AI requests. Please wait a moment.' } });
-
-router.post('/heritage', aiLimiter, heritageGuide);
-router.post('/gift-finder', aiLimiter, giftFinder);
-router.post('/generate-description', aiLimiter, protect, generateProductDescription);
+router.post('/chat', aiController.aiChat);
+router.get('/recommendations', optionalAuth, aiController.getRecommendations);
+router.get('/trending', aiController.getTrending);
+router.get('/featured', aiController.getFeatured);
+router.post('/generate-story', aiController.generateStory);
 
 module.exports = router;

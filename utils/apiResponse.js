@@ -1,16 +1,26 @@
-const successResponse = (res, statusCode, message, data = {}) =>
-  res.status(statusCode).json({ success: true, message, ...data });
+const successResponse = (res, statusCode, message, data = null) => {
+  const response = { success: true, message };
+  if (data !== null) response.data = data;
+  return res.status(statusCode).json(response);
+};
 
-const errorResponse = (res, statusCode, message, errors = null) =>
-  res.status(statusCode).json({ success: false, message, ...(errors && { errors }) });
+const errorResponse = (res, statusCode, message, errors = null) => {
+  const response = { success: false, message };
+  if (errors) response.errors = errors;
+  return res.status(statusCode).json(response);
+};
 
-const paginatedResponse = (res, data, page, limit, total, extras = {}) =>
-  res.status(200).json({
-    success: true, data, page, limit, total,
-    totalPages: Math.ceil(total / limit),
-    hasNextPage: page * limit < total,
-    hasPrevPage: page > 1,
-    ...extras,
+const paginatedResponse = (res, data, page, limit, total) => {
+  return res.status(200).json({
+    success: true,
+    data,
+    pagination: {
+      page: parseInt(page),
+      limit: parseInt(limit),
+      total,
+      pages: Math.ceil(total / limit),
+    },
   });
+};
 
 module.exports = { successResponse, errorResponse, paginatedResponse };

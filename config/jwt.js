@@ -1,5 +1,5 @@
 module.exports = {
-  secret: process.env.JWT_SECRET || 'default-secret-change-in-production',
+  secret: process.env.JWT_SECRET || 'fallback_dev_secret_change_me',
   expiresIn: process.env.JWT_EXPIRE || '7d',
   cookieOptions: {
     httpOnly: true,

@@ -1,165 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Create Account | Sanskriti Market</title>
-  <meta name="robots" content="noindex">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-  <style>
-    * { box-sizing: border-box; }
-    body { background: #F5F0E8; min-height: 100vh; display: flex; font-family: Inter, sans-serif; }
-    .left-panel { background: linear-gradient(135deg, #8B2942 0%, #5c1a28 100%); color: #fff; padding: 60px 48px; display: flex; flex-direction: column; justify-content: center; }
-    .left-panel h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 16px; }
-    .feature-item { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; font-size: 0.9rem; color: rgba(255,255,255,0.9); }
-    .feature-icon { width: 32px; height: 32px; background: rgba(201,169,98,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #C9A962; flex-shrink: 0; }
-    .right-panel { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 20px; }
-    .auth-card { background: #fff; border-radius: 20px; padding: 40px; width: 100%; max-width: 480px; box-shadow: 0 4px 40px rgba(139,41,66,0.08); }
-    .brand { font-family: 'Playfair Display', serif; color: #8B2942; font-size: 1.6rem; text-align: center; margin-bottom: 4px; text-decoration: none; display: block; }
-    .brand span { color: #C9A962; }
-    .form-control, .form-select { border-radius: 10px; padding: 12px 16px; border: 1.5px solid #e8ddd0; font-size: 0.95rem; width: 100%; }
-    .form-control:focus, .form-select:focus { border-color: #8B2942; box-shadow: 0 0 0 3px rgba(139,41,66,0.1); outline: none; }
-    .btn-main { background: #8B2942; color: #fff; border: none; border-radius: 12px; padding: 14px; width: 100%; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all .2s; }
-    .btn-main:hover { background: #6d1f33; transform: translateY(-1px); }
-    .role-card { border: 2px solid #e8ddd0; border-radius: 12px; padding: 16px; cursor: pointer; transition: all .2s; text-align: center; }
-    .role-card.selected { border-color: #8B2942; background: #FFF5F7; }
-    .role-card:hover { border-color: #8B2942; }
-    .role-icon { font-size: 1.8rem; margin-bottom: 8px; }
-    .role-title { font-weight: 600; color: #1a1a1a; font-size: 0.9rem; }
-    .role-desc { font-size: 0.75rem; color: #999; margin-top: 4px; }
-    .alert { border-radius: 10px; font-size: 0.9rem; padding: 12px 16px; margin-bottom: 16px; }
-    @media (max-width: 768px) { .left-panel { display: none; } .right-panel { padding: 20px; } .auth-card { padding: 28px 20px; } }
-  </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Register | Sanskriti Market</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/main.css" rel="stylesheet"><link href="/css/components.css" rel="stylesheet">
 </head>
 <body>
-  <div class="left-panel d-none d-lg-flex col-lg-4" style="flex-direction:column;justify-content:center">
-    <div style="font-size:3rem;margin-bottom:20px">🪔</div>
-    <h2>Join the Sanskriti Family</h2>
-    <p style="color:rgba(255,255,255,0.8);line-height:1.8;margin-bottom:28px">Connect with India's master craftspeople or discover authentic handmade treasures from every corner of the country.</p>
-    <div class="feature-item"><div class="feature-icon"><i class="bi bi-shield-check"></i></div>Secure & verified marketplace</div>
-    <div class="feature-item"><div class="feature-icon"><i class="bi bi-heart"></i></div>Save favourites to wishlist</div>
-    <div class="feature-item"><div class="feature-icon"><i class="bi bi-bag-check"></i></div>Track all your orders</div>
-    <div class="feature-item"><div class="feature-icon"><i class="bi bi-robot"></i></div>AI-powered gift recommendations</div>
-    <div class="feature-item"><div class="feature-icon"><i class="bi bi-shop"></i></div>Open your own artisan store</div>
-  </div>
-
-  <div class="right-panel">
-    <div class="auth-card">
-      <a href="/" class="brand">Sanskriti <span>Market</span></a>
-      <p style="text-align:center;color:#999;font-size:0.85rem;margin-bottom:28px">Create your free account</p>
-
-      <div id="register-alert" class="alert" style="display:none"></div>
-
-      <!-- Role Selection -->
-      <div class="mb-4">
-        <label style="font-size:0.85rem;color:#555;font-weight:500;margin-bottom:10px;display:block">I want to...</label>
-        <div class="row g-2">
-          <div class="col-6">
-            <div class="role-card selected" id="role-customer" onclick="selectRole('customer')">
-              <div class="role-icon">🛍️</div>
-              <div class="role-title">Shop</div>
-              <div class="role-desc">Buy authentic crafts</div>
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="role-card" id="role-seller" onclick="selectRole('seller')">
-              <div class="role-icon">🎨</div>
-              <div class="role-title">Sell</div>
-              <div class="role-desc">Sell my crafts</div>
-            </div>
-          </div>
-        </div>
-        <input type="hidden" id="selected-role" value="customer">
-      </div>
-
-      <div class="mb-3">
-        <label style="font-size:0.85rem;color:#555;font-weight:500;margin-bottom:6px;display:block">Full Name *</label>
-        <input type="text" class="form-control" id="reg-name" placeholder="Your full name" autocomplete="name">
-      </div>
-
-      <div class="mb-3">
-        <label style="font-size:0.85rem;color:#555;font-weight:500;margin-bottom:6px;display:block">Email Address *</label>
-        <input type="email" class="form-control" id="reg-email" placeholder="your@email.com" autocomplete="email">
-      </div>
-
-      <div class="mb-4">
-        <label style="font-size:0.85rem;color:#555;font-weight:500;margin-bottom:6px;display:block">Password *</label>
-        <div style="position:relative">
-          <input type="password" class="form-control" id="reg-password" placeholder="Min. 6 characters" autocomplete="new-password" style="padding-right:48px">
-          <button onclick="togglePwd()" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:#999;cursor:pointer"><i class="bi bi-eye" id="pwd-eye"></i></button>
-        </div>
-      </div>
-
-      <button class="btn-main" onclick="handleRegister()" id="reg-btn">
-        <i class="bi bi-person-plus me-2"></i>Create Free Account
-      </button>
-
-      <p style="text-align:center;margin-top:20px;font-size:0.9rem;color:#999">
-        Already have an account? <a href="/login.html" style="color:#8B2942;font-weight:600;text-decoration:none">Sign In</a>
-      </p>
-    </div>
-  </div>
-
-  <script src="/js/api.js"></script>
-  <script src="/js/auth.js"></script>
-  <script>
-    function selectRole(role) {
-      document.getElementById('selected-role').value = role;
-      document.getElementById('role-customer').classList.toggle('selected', role === 'customer');
-      document.getElementById('role-seller').classList.toggle('selected', role === 'seller');
-    }
-
-    function togglePwd() {
-      const input = document.getElementById('reg-password');
-      const eye = document.getElementById('pwd-eye');
-      if (input.type === 'password') { input.type = 'text'; eye.className = 'bi bi-eye-slash'; }
-      else { input.type = 'password'; eye.className = 'bi bi-eye'; }
-    }
-
-    async function handleRegister() {
-      const name = document.getElementById('reg-name').value.trim();
-      const email = document.getElementById('reg-email').value.trim();
-      const password = document.getElementById('reg-password').value;
-      const role = document.getElementById('selected-role').value;
-      const alertEl = document.getElementById('register-alert');
-      const btn = document.getElementById('reg-btn');
-
-      if (!name) { showAlert('Please enter your full name.', 'warning'); return; }
-      if (!email) { showAlert('Please enter your email address.', 'warning'); return; }
-      if (password.length < 6) { showAlert('Password must be at least 6 characters.', 'warning'); return; }
-
-      btn.disabled = true;
-      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Creating account...';
-
-      try {
-        const res = await API.post('/api/auth/register', { name, email, password, role });
-        Auth.setSession(res.user, res.token);
-        showAlert('Account created successfully! Welcome to Sanskriti Market 🪔', 'success');
-        setTimeout(() => {
-          window.location.href = role === 'seller' ? '/seller/dashboard.html' : '/';
-        }, 1500);
-      } catch (e) {
-        showAlert(e.message || 'Registration failed. Please try again.', 'danger');
-        btn.disabled = false;
-        btn.innerHTML = '<i class="bi bi-person-plus me-2"></i>Create Free Account';
-      }
-    }
-
-    function showAlert(msg, type) {
-      const el = document.getElementById('register-alert');
-      el.className = `alert alert-${type}`;
-      el.textContent = msg;
-      el.style.display = 'block';
-    }
-
-    // Pre-select role from URL
-    const urlRole = new URLSearchParams(location.search).get('role');
-    if (urlRole === 'seller') selectRole('seller');
-
-    // Redirect if already logged in
-    if (Auth.isLoggedIn()) window.location.href = '/';
-  </script>
-</body>
-</html>
+<main class="auth-container"><div class="auth-card">
+<a href="/" class="d-block text-center mb-4 navbar-brand" style="font-size:1.5rem">Sanskriti <span style="color:var(--secondary)">Market</span></a>
+<h2>Join Sanskriti</h2><p class="subtitle">Create your account</p>
+<form id="register-form"><div class="mb-3"><label class="form-label">Full Name</label><input type="text" class="form-control form-control-sanskriti" id="name" required></div>
+<div class="mb-3"><label class="form-label">Email</label><input type="email" class="form-control form-control-sanskriti" id="email" required></div>
+<div class="mb-3"><label class="form-label">Password</label><input type="password" class="form-control form-control-sanskriti" id="password" minlength="6" required></div>
+<div class="mb-3"><label class="form-label">Account Type</label><select class="form-select form-control-sanskriti" id="role"><option value="customer">Shop as Customer</option><option value="seller">Sell as Artisan</option></select></div>
+<button type="submit" class="btn-sanskriti w-100">Create Account</button></form>
+<p class="text-center mt-3">Have an account? <a href="/login.html">Sign In</a></p></div></main>
+<script src="/js/api.js"></script><script src="/js/auth.js"></script><script src="/js/main.js"></script>
+<script>
+if(new URLSearchParams(location.search).get('role')==='seller')document.getElementById('role').value='seller';
+document.getElementById('register-form').addEventListener('submit',async e=>{e.preventDefault();try{await Auth.register(document.getElementById('name').value,document.getElementById('email').value,document.getElementById('password').value,document.getElementById('role').value);Utils.showToast('Account created!','success');setTimeout(()=>location.href='/',500);}catch(err){Utils.showToast(err.message,'error');}});
+</script></body></html>

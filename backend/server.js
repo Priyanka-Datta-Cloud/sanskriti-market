@@ -24,28 +24,32 @@ const searchRoutes = require('../routes/searchRoutes');
 const aiRoutes = require('../routes/aiRoutes');
 const adminRoutes = require('../routes/adminRoutes');
 const sellerRoutes = require('../routes/sellerRoutes');
-const reviewRoutes = require('../routes/reviewRoutes');
-const paymentRoutes = require('../routes/paymentRoutes');
-const uploadRoutes = require('../routes/uploadRoutes');
 
 const app = express();
 
 connectDB().catch(() => {
-  console.warn('Running without database connection.');
+  console.warn('Running without database connection. API data endpoints will fail until MongoDB is configured.');
 });
 
 app.set('trust proxy', 1);
 
-app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }));
+app.use(helmet({
+  contentSecurityPolicy: false,
+  crossOriginEmbedderPolicy: false,
+}));
 app.use(compression());
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
-app.use(cors({ origin: process.env.CLIENT_URL || '*', credentials: true }));
+app.use(cors({
+  origin: process.env.CLIENT_URL || '*',
+  credentials: true,
+}));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, max: 200,
+  windowMs: 15 * 60 * 1000,
+  max: 200,
   message: { success: false, message: 'Too many requests. Please try again later.' },
 });
 app.use('/api/', limiter);
@@ -55,7 +59,12 @@ app.use('/assets', express.static(path.join(__dirname, '../assets')));
 app.use(express.static(path.join(__dirname, '../public')));
 
 app.get('/api/health', (req, res) => {
-  res.json({ success: true, message: 'Sanskriti Market API is running.', timestamp: new Date().toISOString() });
+  res.json({
+    success: true,
+    message: 'Sanskriti Market API is running.',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development',
+  });
 });
 
 app.get('/sitemap.xml', async (req, res) => {
@@ -68,15 +77,17 @@ app.get('/sitemap.xml', async (req, res) => {
     const xml = generateSitemap(baseUrl, products, stores);
     res.set('Content-Type', 'application/xml');
     res.send(xml);
-  } catch { res.sendFile(path.join(__dirname, '../public/sitemap.xml')); }
+  } catch {
+    res.sendFile(path.join(__dirname, '../public/sitemap.xml'));
+  }
 });
 
-app.get('/robots.txt', (req, res) => res.sendFile(path.join(__dirname, '../public/robots.txt')));
+app.get('/robots.txt', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/robots.txt'));
+});
 
-// API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
-app.use('/api/products/:productId/reviews', reviewRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/orders', orderRoutes);
@@ -85,23 +96,24 @@ app.use('/api/search', searchRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/seller', sellerRoutes);
-app.use('/api/payment', paymentRoutes);
-app.use('/api/upload', uploadRoutes);
 
 app.get('*', (req, res, next) => {
   if (req.path.startsWith('/api')) return next();
   const filePath = path.join(__dirname, '../frontend', req.path.endsWith('.html') ? req.path : 'index.html');
-  res.sendFile(filePath, (err) => { if (err) res.sendFile(path.join(__dirname, '../frontend/index.html')); });
+  res.sendFile(filePath, (err) => {
+    if (err) res.sendFile(path.join(__dirname, '../frontend/index.html'));
+  });
 });
 
 app.use(notFound);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
+
 if (require.main === module) {
   app.listen(PORT, () => {
-    console.log(`\n🪔 Sanskriti Market running on port ${PORT}`);
-    console.log(`🌐 Open: http://localhost:${PORT}\n`);
+    console.log(`Sanskriti Market server running on port ${PORT}`);
+    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
   });
 }
 
