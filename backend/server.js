@@ -28,21 +28,15 @@ const sellerRoutes = require('../routes/sellerRoutes');
 const app = express();
 
 connectDB().catch(() => {
-  console.warn('Running without database connection. API data endpoints will fail until MongoDB is configured.');
+  console.warn('Running without database connection.');
 });
 
 app.set('trust proxy', 1);
 
-app.use(helmet({
-  contentSecurityPolicy: false,
-  crossOriginEmbedderPolicy: false,
-}));
+app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }));
 app.use(compression());
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
-app.use(cors({
-  origin: process.env.CLIENT_URL || '*',
-  credentials: true,
-}));
+app.use(cors({ origin: process.env.CLIENT_URL || '*', credentials: true }));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -58,6 +52,7 @@ app.use(express.static(path.join(__dirname, '../frontend')));
 app.use('/assets', express.static(path.join(__dirname, '../assets')));
 app.use(express.static(path.join(__dirname, '../public')));
 
+// Health check
 app.get('/api/health', (req, res) => {
   res.json({
     success: true,
@@ -67,6 +62,23 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// SEED TRIGGER — visit this URL in browser to populate database
+app.get('/api/seed-now-sanskriti2024', (req, res) => {
+  const { execFile } = require('child_process');
+  execFile('node', [path.join(__dirname, '../database/seed.js')],
+    { env: process.env, timeout: 120000 },
+    (err, stdout, stderr) => {
+      if (err) {
+        console.error('Seed error:', err.message);
+        return res.json({ success: false, error: err.message, stderr: stderr });
+      }
+      console.log('Seed output:', stdout);
+      res.json({ success: true, message: '27 products added successfully!', output: stdout });
+    }
+  );
+});
+
+// Sitemap
 app.get('/sitemap.xml', async (req, res) => {
   try {
     const baseUrl = process.env.CLIENT_URL || `${req.protocol}://${req.get('host')}`;
@@ -86,6 +98,7 @@ app.get('/robots.txt', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/robots.txt'));
 });
 
+// API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/cart', cartRoutes);
@@ -97,6 +110,7 @@ app.use('/api/ai', aiRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/seller', sellerRoutes);
 
+// Frontend catch-all
 app.get('*', (req, res, next) => {
   if (req.path.startsWith('/api')) return next();
   const filePath = path.join(__dirname, '../frontend', req.path.endsWith('.html') ? req.path : 'index.html');
@@ -110,26 +124,15 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-if (require.main === module) {
-  app.get('/api/seed-now-sanskriti2024', async (req, res) => {
-  try {
-    const { execFile } = require('child_process');
-    const path = require('path');
-    execFile('node', [path.join(__dirname, '../database/seed.js')],
-      { env: process.env, timeout: 60000 },
-      (err, stdout, stderr) => {
-        if (err) return res.json({ success: false, error: err.message, stderr });
-        res.json({ success: true, message: 'Seed complete! 27 products added.', output: stdout });
-      }
-    );
-  } catch (e) {
-    res.json({ success: false, error: e.message });
-  }
+const server = app.listen(PORT, () => {
+  console.log(`🪔 Sanskriti Market running on port ${PORT}`);
+  console.log(`🌐 Open: http://localhost:${PORT}`);
 });
-app.listen(PORT, () => {
-    console.log(`Sanskriti Market server running on port ${PORT}`);
-    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-  });
-}
+
+connectDB().then(() => {
+  console.log('✅ MongoDB connected');
+}).catch(err => {
+  console.error('❌ MongoDB connection failed:', err.message);
+});
 
 module.exports = app;
