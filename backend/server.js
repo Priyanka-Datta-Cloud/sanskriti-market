@@ -111,7 +111,22 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
 
 if (require.main === module) {
-  app.listen(PORT, () => {
+  app.get('/api/seed-now-sanskriti2024', async (req, res) => {
+  try {
+    const { execFile } = require('child_process');
+    const path = require('path');
+    execFile('node', [path.join(__dirname, '../database/seed.js')],
+      { env: process.env, timeout: 60000 },
+      (err, stdout, stderr) => {
+        if (err) return res.json({ success: false, error: err.message, stderr });
+        res.json({ success: true, message: 'Seed complete! 27 products added.', output: stdout });
+      }
+    );
+  } catch (e) {
+    res.json({ success: false, error: e.message });
+  }
+});
+app.listen(PORT, () => {
     console.log(`Sanskriti Market server running on port ${PORT}`);
     console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
   });
