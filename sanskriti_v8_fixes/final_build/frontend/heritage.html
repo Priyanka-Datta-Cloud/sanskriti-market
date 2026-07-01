@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heritage Knowledge Hub | Sanskriti Market</title>
+<meta name="description" content="Learn about India's greatest craft traditions — Madhubani, Pashmina, Warli, Bandhani, Blue Pottery, Banarasi Silk and more.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#F5F0E8;padding-top:78px}
+.navbar{background:rgba(26,10,15,0.97);backdrop-filter:blur(12px);padding:14px 0;position:fixed;top:0;left:0;right:0;z-index:999}
+.nav-wrap{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{font-family:'Playfair Display',serif;font-size:1.5rem;color:#fff;font-weight:700;text-decoration:none}
+.nav-brand span{color:#C9A962}
+.nav-btn{padding:7px 16px;border-radius:20px;font-size:0.85rem;text-decoration:none;font-weight:600}
+.btn-out{border:1px solid rgba(255,255,255,0.4);color:#fff}
+.btn-gold{background:#C9A962;color:#1a0a0f}
+.hero{background:linear-gradient(135deg,#2C1810 0%,#8B2942 100%);color:#fff;padding:60px 0 44px;text-align:center}
+.hero h1{font-family:'Playfair Display',serif;font-size:2.6rem}
+.hero p{color:#C9A962}
+.craft-nav{background:#fff;border-bottom:2px solid #F5F0E8;position:sticky;top:78px;z-index:100;overflow-x:auto;white-space:nowrap}
+.craft-nav-inner{display:flex;gap:4px;padding:10px 16px;max-width:1200px;margin:0 auto}
+.nav-pill{font-size:13px;padding:7px 16px;border-radius:20px;color:#555;cursor:pointer;border:none;background:none;white-space:nowrap}
+.nav-pill.active{background:#8B2942;color:#fff}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+.craft-section{padding:64px 0;border-bottom:1px solid #E8DDD0;scroll-margin-top:130px}
+.products-showcase{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:24px}
+.ps-card{border-radius:14px;overflow:hidden;background:#fff;border:1px solid #f0e8e0;text-decoration:none;display:block}
+.ps-card img{width:100%;height:150px;object-fit:cover}
+.ps-body{padding:12px}
+.ps-name{font-weight:600;font-size:0.85rem;color:#1a0a0f}
+.ps-price{color:#8B2942;font-weight:700;font-size:0.9rem;margin-top:4px}
+.fact-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:20px}
+.fact-card{background:#fff;border-radius:14px;padding:18px;border:1px solid #f0e8e0}
+.fact-title{font-weight:600;color:#8B2942;margin-bottom:6px;font-size:0.92rem}
+.fact-desc{color:#666;font-size:0.83rem;line-height:1.6}
+.craft-hero-img{width:100%;height:340px;object-fit:cover;border-radius:18px;margin-bottom:20px}
+.btn-buy{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:#8B2942;color:#fff;border-radius:10px;text-decoration:none;font-weight:600;margin-top:18px}
+.section-label{display:inline-block;font-size:12px;font-weight:600;text-transform:uppercase;padding:4px 14px;border-radius:20px;margin-bottom:14px}
+.bottom-cta{background:linear-gradient(135deg,#8B2942,#5c1a28);color:#fff;padding:56px 0;text-align:center}
+@media(max-width:768px){.products-showcase,.fact-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.products-showcase,.fact-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="navbar"><div class="nav-wrap"><a href="/" class="nav-brand">Sanskriti <span>Market</span></a><div style="display:flex;gap:10px"><a href="/india-craft-map.html" class="nav-btn btn-out">Craft Map</a><a href="/products.html" class="nav-btn btn-gold">Shop Now</a></div></div></nav>
+
+<div class="hero"><div style="font-size:2.6rem;margin-bottom:14px">🏛️</div><h1>Heritage Knowledge Hub</h1><p>5000 years of India's craft wisdom</p></div>
+
+<div class="craft-nav"><div class="craft-nav-inner" id="cn">
+<button class="nav-pill active" onclick="go('madhubani',this)">🖼️ Madhubani</button>
+<button class="nav-pill" onclick="go('pashmina',this)">🧣 Pashmina</button>
+<button class="nav-pill" onclick="go('warli',this)">🌿 Warli</button>
+<button class="nav-pill" onclick="go('bandhani',this)">🎨 Bandhani</button>
+<button class="nav-pill" onclick="go('blue-pottery',this)">🏺 Blue Pottery</button>
+<button class="nav-pill" onclick="go('banarasi',this)">🪡 Banarasi</button>
+<button class="nav-pill" onclick="go('dokra',this)">🔔 Dokra</button>
+<button class="nav-pill" onclick="go('spices',this)">🌶️ Spices</button>
+</div></div>
+
+<div class="wrap">
+
+<section class="craft-section" id="madhubani">
+<span class="section-label" style="background:#FFF3CD;color:#B8860B">Bihar · 2500 Years Old</span>
+<h2 style="font-family:'Playfair Display',serif;color:#8B2942;font-size:2.2rem;margin-bottom:14px">Madhubani Art</h2>
+<img src="https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=900&q=85" class="craft-hero-img" alt="Madhubani" onerror="this.style.background='#F5F0E8'">
+<p style="color:#555;line-height:1.85">Madhubani painting is a 2,500-year-old folk art from the Mithila region of Bihar. Legend says it was first created for the wedding of Lord Ram and Sita. Today it is one of India's most recognised folk art forms, made using natural colours — turmeric, indigo, rice powder — with no empty space left on the canvas.</p>
+<div class="fact-grid">
+<div class="fact-card"><div class="fact-title">🎨 Natural Colours</div><div class="fact-desc">Made from turmeric, indigo, rice powder. No synthetic dyes in authentic work.</div></div>
+<div class="fact-card"><div class="fact-title">📐 No Empty Space</div><div class="fact-desc">Bold outlines and vivid geometric patterns fill every inch of the canvas.</div></div>
+<div class="fact-card"><div class="fact-title">🌸 Five Styles</div><div class="fact-desc">Katchni, Bharni, Godna, Kohbar, Tantrik — each from a different village tradition.</div></div>
+<div class="fact-card"><div class="fact-title">🏅 GI Certified</div><div class="fact-desc">Officially recognised as Geographical Indication by the Government of India.</div></div>
+</div>
+<a href="/products.html?craftType=madhubani" class="btn-buy">🛍️ Shop Madhubani Art</a>
+<h4 style="color:#8B2942;margin-top:32px;margin-bottom:12px">Shop Madhubani Products</h4>
+<div class="products-showcase">
+<a href="/products.html?craftType=madhubani" class="ps-card"><img src="https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=300&q=80" alt="" onerror="this.style.background='#F5F0E8'"><div class="ps-body"><div class="ps-name">Madhubani Canvas Painting</div><div class="ps-price">From ₹1,800</div></div></a>
+<a href="/products.html?craftType=madhubani" class="ps-card"><img src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=300&q=80" alt="" onerror="this.style.background='#F5F0E8'"><div class="ps-body"><div class="ps-name">Madhubani Colouring Book</div><div class="ps-price">From ₹350</div></div></a>
+</div>
+</section>
+
+<section class="craft-section" id="pashmina">
+<span class="section-label" style="background:#E8F4FD;color:#1E6A9A">Kashmir · 3000 Years Old</span>
+<h2 style="font-family:'Playfair Display',serif;color:#8B2942;font-size:2.2rem;margin-bottom:14px">Pashmina</h2>
+<img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=900&q=85" class="craft-hero-img" alt="Pashmina" onerror="this.style.background='#F5F0E8'">
+<p style="color:#555;line-height:1.85">Pashmina comes from the underbelly hair of the Changthangi goat found at 14,000 feet in Ladakh. Hand-spun by Kashmiri artisans into the world's finest wool. A single shawl takes 3–6 months. Genuine Pashmina passes the ring test and burns like hair, never plastic.</p>
+<div class="fact-grid">
+<div class="fact-card"><div class="fact-title">💍 Ring Test</div><div class="fact-desc">Genuine Pashmina passes through a standard ring due to its fineness.</div></div>
+<div class="fact-card"><div class="fact-title">⏱️ 3-6 Months</div><div class="fact-desc">A single hand-woven shawl takes months of dedicated craftsmanship.</div></div>
+<div class="fact-card"><div class="fact-title">🪡 Sozni Embroidery</div><div class="fact-desc">Delicate hand embroidery added that can take years for elaborate pieces.</div></div>
+<div class="fact-card"><div class="fact-title">🏅 GI Certified</div><div class="fact-desc">Officially protected Geographical Indication from Kashmir.</div></div>
+</div>
+<a href="/products.html?craftType=pashmina" class="btn-buy">🛍️ Shop Pashmina</a>
+<h4 style="color:#8B2942;margin-top:32px;margin-bottom:12px">Shop Pashmina Products</h4>
+<div class="products-showcase">
+<a href="/products.html?craftType=pashmina" class="ps-card"><img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=300&q=80" alt="" onerror="this.style.background='#F5F0E8'"><div class="ps-body"><div class="ps-name">Pure Pashmina Shawl</div><div class="ps-price">From ₹8,500</div></div></a>
+</div>
+</section>
+
+<section class="craft-section" id="warli">
+<span class="section-label" style="background:#F0FFF0;color:#27AE60">Maharashtra · Tribal Art</span>
+<h2 style="font-family:'Playfair Display',serif;color:#8B2942;font-size:2.2rem;margin-bottom:14px">Warli Painting</h2>
+<img src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=900&q=85" class="craft-hero-img" alt="Warli" onerror="this.style.background='#F5F0E8'">
+<p style="color:#555;line-height:1.85">Warli is India's oldest living folk art from the Warli tribe of Maharashtra. White rice-paste figures on a terracotta background tell stories using only three shapes — circle, triangle, square. Traditionally painted exclusively by women for weddings and harvest festivals.</p>
+<div class="fact-grid">
+<div class="fact-card"><div class="fact-title">⚪ White on Brown</div><div class="fact-desc">Only white rice paste on terracotta background — no other colours used.</div></div>
+<div class="fact-card"><div class="fact-title">📐 Three Shapes</div><div class="fact-desc">Circle, triangle, square — complex scenes built from these basic forms.</div></div>
+</div>
+<a href="/products.html?craftType=warli" class="btn-buy">🛍️ Shop Warli Art</a>
+<h4 style="color:#8B2942;margin-top:32px;margin-bottom:12px">Shop Warli Products</h4>
+<div class="products-showcase">
+<a href="/products.html?craftType=warli" class="ps-card"><img src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=300&q=80" alt="" onerror="this.style.background='#F5F0E8'"><div class="ps-body"><div class="ps-name">Warli Canvas Painting</div><div class="ps-price">From ₹2,800</div></div></a>
+</div>
+</section>
+
+<section class="craft-section" id="bandhani">
+<span class="section-label" style="background:#FFF5F7;color:#8B2942">Rajasthan & Gujarat · 5000 Years Old</span>
+<h2 style="font-family:'Playfair Display',serif;color:#8B2942;font-size:2.2rem;margin-bottom:14px">Bandhani</h2>
+<img src="https://images.unsplash.com/photo-1594938298603-c8148c4b984a?w=900&q=85" class="craft-hero-img" alt="Bandhani" onerror="this.style.background='#F5F0E8'">
+<p style="color:#555;line-height:1.85">Bandhani — meaning "to tie" — is one of the world's oldest tie-dye traditions, with evidence from the Indus Valley Civilisation. A single saree can have over 100,000 hand-tied dots, each tied with a fingernail before dyeing with natural colours.</p>
+<a href="/products.html?craftType=bandhani" class="btn-buy">🛍️ Shop Bandhani</a>
+<h4 style="color:#8B2942;margin-top:32px;margin-bottom:12px">Shop Bandhani Products</h4>
+<div class="products-showcase">
+<a href="/products.html?craftType=bandhani" class="ps-card"><img src="https://images.unsplash.com/photo-1594938298603-c8148c4b984a?w=300&q=80" alt="" onerror="this.style.background='#F5F0E8'"><div class="ps-body"><div class="ps-name">Bandhani Dupatta</div><div class="ps-price">From ₹1,600</div></div></a>
+</div>
+</section>
+
+<section class="craft-section" id="blue-pottery">
+<span class="section-label" style="background:#EBF5FB;color:#1A5276">Jaipur, Rajasthan</span>
+<h2 style="font-family:'Playfair Display',serif;color:#8B2942;font-size:2.2rem;margin-bottom:14px">Blue Pottery</h2>
+<img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=900&q=85" class="craft-hero-img" alt="Blue Pottery" onerror="this.style.background='#F5F0E8'">
+<p style="color:#555;line-height:1.85">Jaipur Blue Pottery contains NO clay — made from quartz stone powder, glass and multani mitti. Persian-inspired cobalt blue designs brought by Mughal artisans in the 14th century. Fired twice at 800°C for the signature glassy finish.</p>
+<a href="/products.html?craftType=blue-pottery" class="btn-buy">🛍️ Shop Blue Pottery</a>
+<h4 style="color:#8B2942;margin-top:32px;margin-bottom:12px">Shop Blue Pottery Products</h4>
+<div class="products-showcase">
+<a href="/products.html?craftType=blue-pottery" class="ps-card"><img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=300&q=80" alt="" onerror="this.style.background='#F5F0E8'"><div class="ps-body"><div class="ps-name">Blue Pottery Vase Set</div><div class="ps-price">From ₹2,200</div></div></a>
+</div>
+</section>
+
+<section class="craft-section" id="banarasi">
+<span class="section-label" style="background:#FFF5F7;color:#8B2942">Varanasi, UP · Mughal Era</span>
+<h2 style="font-family:'Playfair Display',serif;color:#8B2942;font-size:2.2rem;margin-bottom:14px">Banarasi Silk</h2>
+<img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=900&q=85" class="craft-hero-img" alt="Banarasi" onerror="this.style.background='#F5F0E8'">
+<p style="color:#555;line-height:1.85">Woven in Varanasi, one of the world's oldest cities, the Banarasi tradition dates to the Mughal era. Famous for gold and silver zari brocade. A basic saree takes 15 days; an elaborate one can take 6 months. Every Indian bride dreams of a Banarasi.</p>
+<a href="/products.html?craftType=banarasi" class="btn-buy">🛍️ Shop Banarasi Silk</a>
+<h4 style="color:#8B2942;margin-top:32px;margin-bottom:12px">Shop Banarasi Products</h4>
+<div class="products-showcase">
+<a href="/products.html?craftType=banarasi" class="ps-card"><img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=300&q=80" alt="" onerror="this.style.background='#F5F0E8'"><div class="ps-body"><div class="ps-name">Banarasi Silk Saree</div><div class="ps-price">From ₹12,000</div></div></a>
+</div>
+</section>
+
+<section class="craft-section" id="dokra">
+<span class="section-label" style="background:#F4ECF7;color:#6C3483">West Bengal & Odisha · 4000 Years Old</span>
+<h2 style="font-family:'Playfair Display',serif;color:#8B2942;font-size:2.2rem;margin-bottom:14px">Dokra Metal Casting</h2>
+<img src="https://images.unsplash.com/photo-1605627079912-97c3810a11a4?w=900&q=85" class="craft-hero-img" alt="Dokra" onerror="this.style.background='#F5F0E8'">
+<p style="color:#555;line-height:1.85">One of the world's oldest metal-casting techniques using lost-wax (cire-perdue) method — 4,000 years old. The Dancing Girl of Mohenjodaro is believed to be the earliest Dokra work. Each tribal-made piece is unique — no two are identical.</p>
+<a href="/products.html?craftType=dokra" class="btn-buy">🛍️ Shop Dokra Art</a>
+<h4 style="color:#8B2942;margin-top:32px;margin-bottom:12px">Shop Dokra Products</h4>
+<div class="products-showcase">
+<a href="/products.html?craftType=dokra" class="ps-card"><img src="https://images.unsplash.com/photo-1605627079912-97c3810a11a4?w=300&q=80" alt="" onerror="this.style.background='#F5F0E8'"><div class="ps-body"><div class="ps-name">Dokra Brass Elephant</div><div class="ps-price">From ₹3,200</div></div></a>
+</div>
+</section>
+
+<section class="craft-section" id="spices">
+<span class="section-label" style="background:#FFF3E0;color:#E65100">India's Culinary Heritage</span>
+<h2 style="font-family:'Playfair Display',serif;color:#8B2942;font-size:2.2rem;margin-bottom:14px">Spices, Food & More</h2>
+<img src="https://images.unsplash.com/photo-1596797038530-2c107229654b?w=900&q=85" class="craft-hero-img" alt="Spices" onerror="this.style.background='#F5F0E8'">
+<p style="color:#555;line-height:1.85">India is the world's largest spice producer. From Kashmir's saffron to mango pickles, hand-ground masalas, and traditional sweets — India's food heritage is as rich as its craft heritage.</p>
+<div class="fact-grid">
+<div class="fact-card"><div class="fact-title">🌶️ Kashmiri Saffron</div><div class="fact-desc">World's most expensive spice. GI certified from Kashmir's Pampore region.</div></div>
+<div class="fact-card"><div class="fact-title">🫙 Pickles & Chutneys</div><div class="fact-desc">Every home has its own recipe — preserved in mustard oil with spices.</div></div>
+</div>
+<a href="/products.html?craftType=food" class="btn-buy">🛍️ Shop Food & Spices</a>
+<h4 style="color:#8B2942;margin-top:32px;margin-bottom:12px">Shop Indian Food & More</h4>
+<div class="products-showcase">
+<a href="/products.html?craftType=food" class="ps-card"><img src="https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80" alt="" onerror="this.style.background='#F5F0E8'"><div class="ps-body"><div class="ps-name">Indian Spice Box</div><div class="ps-price">From ₹850</div></div></a>
+<a href="/products.html?craftType=food" class="ps-card"><img src="https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?w=300&q=80" alt="" onerror="this.style.background='#F5F0E8'"><div class="ps-body"><div class="ps-name">Mango Pickle</div><div class="ps-price">From ₹280</div></div></a>
+<a href="/products.html?craftType=food" class="ps-card"><img src="https://images.unsplash.com/photo-1596797038530-2c107229654b?w=300&q=80" alt="" onerror="this.style.background='#F5F0E8'"><div class="ps-body"><div class="ps-name">Kashmiri Saffron</div><div class="ps-price">From ₹450</div></div></a>
+<a href="/products.html?craftType=books" class="ps-card"><img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&q=80" alt="" onerror="this.style.background='#F5F0E8'"><div class="ps-body"><div class="ps-name">Indian Art Book</div><div class="ps-price">From ₹1,200</div></div></a>
+</div>
+</section>
+
+</div>
+
+<div class="bottom-cta"><div style="font-size:2.6rem;margin-bottom:14px">🪔</div><h2 style="font-family:'Playfair Display',serif">Own a Piece of History</h2><p style="color:#C9A962;margin:14px 0 24px">Every product carries the story of India's greatest craft traditions</p><a href="/products.html" style="background:#C9A962;color:#1a0a0f;font-weight:700;padding:12px 32px;border-radius:30px;text-decoration:none">Explore All Products →</a></div>
+
+<script>
+function go(id,btn){document.getElementById(id)?.scrollIntoView({behavior:'smooth'});document.querySelectorAll('.nav-pill').forEach(p=>p.classList.remove('active'));if(btn)btn.classList.add('active')}
+const sections=document.querySelectorAll('.craft-section');
+const pills=document.querySelectorAll('.nav-pill');
+const obs=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){pills.forEach(p=>p.classList.remove('active'));const id=e.target.id;const m=[...pills].find(p=>p.getAttribute('onclick')?.includes(`'${id}'`));if(m)m.classList.add('active')}})},{threshold:0.3});
+sections.forEach(s=>obs.observe(s));
+</script>
+<script src="/js/chatbot.js"></script>
+</body>
+</html>

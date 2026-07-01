@@ -1,0 +1,63 @@
+{
+  "version": 2,
+  "name": "sanskriti-market",
+  "builds": [
+    {
+      "src": "backend/server.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "frontend/**",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "public/**",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "assets/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "backend/server.js"
+    },
+    {
+      "src": "/assets/(.*)",
+      "dest": "assets/$1"
+    },
+    {
+      "src": "/public/(.*)",
+      "dest": "public/$1"
+    },
+    {
+      "src": "/robots.txt",
+      "dest": "public/robots.txt"
+    },
+    {
+      "src": "/sitemap.xml",
+      "dest": "public/sitemap.xml"
+    },
+    {
+      "src": "/seller/(.*)",
+      "dest": "frontend/seller/$1"
+    },
+    {
+      "src": "/admin/(.*)",
+      "dest": "frontend/admin/$1"
+    },
+    {
+      "src": "/(.*\\.(html|css|js|png|jpg|jpeg|svg|webp|ico|woff2?))",
+      "dest": "frontend/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "frontend/index.html"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
+}

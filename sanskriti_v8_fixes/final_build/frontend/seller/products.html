@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Seller Products | Sanskriti Market</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="/css/main.css" rel="stylesheet"><link href="/css/components.css" rel="stylesheet">
+</head>
+<body>
+<div class="dashboard-sidebar"><div class="brand">Sanskriti Seller</div>
+<ul class="sidebar-nav"><li><a href="/seller/dashboard.html"><i class="bi bi-grid"></i> Dashboard</a></li>
+<li><a href="/seller/products.html" class="active"><i class="bi bi-box"></i> Products</a></li>
+<li><a href="/seller/orders.html"><i class="bi bi-receipt"></i> Orders</a></li>
+<li><a href="/seller/settings.html"><i class="bi bi-gear"></i> Settings</a></li></ul></div>
+<div class="dashboard-main"><div class="d-flex justify-content-between mb-4"><h2>My Products</h2>
+<button class="btn-sanskriti" data-bs-toggle="modal" data-bs-target="#addModal">Add Product</button></div>
+<div class="table-sanskriti"><table class="table mb-0"><thead><tr><th>Product</th><th>Price</th><th>Stock</th><th>Status</th><th>Actions</th></tr></thead><tbody id="products-table"></tbody></table></div></div>
+<div class="modal fade" id="addModal"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h5>Add Product</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+<div class="modal-body"><form id="add-form"><input class="form-control form-control-sanskriti mb-3" id="p-name" placeholder="Product Name" required>
+<textarea class="form-control form-control-sanskriti mb-3" id="p-desc" placeholder="Description" required></textarea>
+<input type="number" class="form-control form-control-sanskriti mb-3" id="p-price" placeholder="Price (INR)" required>
+<select class="form-select form-control-sanskriti mb-3" id="p-cat"><option value="textiles">Textiles</option><option value="pottery">Pottery</option><option value="jewelry">Jewelry</option><option value="home-decor">Home Decor</option></select>
+<button type="submit" class="btn-sanskriti w-100">Create</button></form></div></div></div></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/api.js"></script><script src="/js/auth.js"></script><script src="/js/main.js"></script>
+<script>
+async function load(){const r=await api.seller.products();document.getElementById('products-table').innerHTML=(r.data.products||[]).map(p=>`<tr><td>${p.name}</td><td>${Utils.formatPrice(p.price)}</td><td>${p.stock}</td><td><span class="status-badge confirmed">Active</span></td><td><button class="btn btn-sm btn-outline-danger" onclick="api.products.delete('${p._id}').then(load)">Delete</button></td></tr>`).join('');}
+document.getElementById('add-form').addEventListener('submit',async e=>{e.preventDefault();await api.products.create({name:document.getElementById('p-name').value,description:document.getElementById('p-desc').value,price:parseFloat(document.getElementById('p-price').value),category:document.getElementById('p-cat').value,stock:10,shortDescription:document.getElementById('p-desc').value.substring(0,200)});bootstrap.Modal.getInstance(document.getElementById('addModal')).hide();load();});
+document.addEventListener('DOMContentLoaded',()=>{if(Auth.requireRole('seller'))load();});
+</script></body></html>
