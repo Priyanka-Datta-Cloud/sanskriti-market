@@ -65,15 +65,18 @@ app.get('/api/health', (req, res) => {
 // SEED TRIGGER — visit this URL in browser to populate database
 app.get('/api/seed-now-sanskriti2024', async (req, res) => {
   try {
-    // Clear existing data first to avoid duplicate errors
     const mongoose = require('mongoose');
-    const collections = mongoose.connection.collections;
-    for (const key in collections) {
-      await collections[key].deleteMany({});
-    }
-    console.log('Cleared all collections');
+    const db = mongoose.connection.db;
 
-    // Now run seed
+    // DROP all collections completely (removes data AND indexes)
+    const collections = await db.listCollections().toArray();
+    for (const col of collections) {
+      await db.dropCollection(col.name);
+      console.log('Dropped collection:', col.name);
+    }
+    console.log('All collections dropped');
+
+    // Now run seed fresh
     const { execFile } = require('child_process');
     execFile('node', [path.join(__dirname, '../database/seed.js')],
       { env: process.env, timeout: 120000 },
@@ -83,10 +86,11 @@ app.get('/api/seed-now-sanskriti2024', async (req, res) => {
           return res.json({ success: false, error: err.message, stderr: stderr });
         }
         console.log('Seed output:', stdout);
-        res.json({ success: true, message: '27 products added successfully! Refresh your products page.', output: stdout });
+        res.json({ success: true, message: '27 products added! Go to /products.html', output: stdout });
       }
     );
   } catch(e) {
+    console.error('Seed route error:', e.message);
     res.json({ success: false, error: e.message });
   }
 });
