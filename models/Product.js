@@ -13,7 +13,19 @@ const productSchema = new mongoose.Schema(
     category: {
       type: String,
       required: true,
-      enum: ['textiles', 'pottery', 'jewelry', 'woodwork', 'metalwork', 'paintings', 'home-decor', 'accessories', 'other'],
+      enum: [
+        'textiles',
+        'pottery',
+        'jewelry',
+        'woodwork',
+        'metalwork',
+        'paintings',
+        'home-decor',
+        'accessories',
+        'sculptures',
+        'toys',
+        'other'
+      ],
     },
     subcategory: { type: String, default: '' },
     tags: [{ type: String, trim: true }],
@@ -27,10 +39,15 @@ const productSchema = new mongoose.Schema(
     materials: [{ type: String }],
     origin: { type: String, default: 'India' },
     region: { type: String, default: '' },
+    craftType: { type: String, default: '' },
     craftTechnique: { type: String, default: '' },
     isHandmade: { type: Boolean, default: true },
+    isHeritageCraft: { type: Boolean, default: false },
+    giTagged: { type: Boolean, default: false },
+    isSustainable: { type: Boolean, default: false },
     isFeatured: { type: Boolean, default: false },
     isActive: { type: Boolean, default: true },
+    isApproved: { type: Boolean, default: false },
     rating: { type: Number, default: 0, min: 0, max: 5 },
     reviewCount: { type: Number, default: 0 },
     viewCount: { type: Number, default: 0 },
@@ -45,12 +62,16 @@ const productSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Indexes — NO duplicate slug index (slug: unique:true already creates one)
 productSchema.index({ name: 'text', description: 'text', tags: 'text', category: 1 });
-productSchema.index({ slug: 1 });
 productSchema.index({ seller: 1 });
 productSchema.index({ store: 1 });
 productSchema.index({ category: 1, isActive: 1 });
 productSchema.index({ isFeatured: 1 });
+productSchema.index({ region: 1 });
+productSchema.index({ craftType: 1 });
+productSchema.index({ giTagged: 1 });
+productSchema.index({ isHeritageCraft: 1 });
 
 productSchema.pre('save', function (next) {
   if (!this.slug || this.isModified('name')) {
